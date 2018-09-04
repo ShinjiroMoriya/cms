@@ -8,20 +8,22 @@
     "heroku-postgresql:hobby-dev"
   ],
   "env": {
-    "API_KEY": "",
-    "SECRET_KEY": "",
-    "AUTH_CREDENTIALS": "",
-    "IP_ADDRESS": ""
+    "API_KEY": {
+      "required": false
+    },
+    "SECRET_KEY": {
+      "required": true
+    },
+    "AUTH_CREDENTIALS": {
+      "required": false
+    },
+    "IP_ADDRESS": {
+      "required": false
+    }
   },
   "buildpacks": [
     {
-      "url": "https://github.com/heroku/heroku-buildpack-nodejs"
-    },
-    {
-      "url": "https://github.com/heroku/heroku-buildpack-python"
-    },
-    {
-      "url": "https://github.com/danp/heroku-buildpack-runit"
+      "url": "heroku/python"
     }
   ]
 }
