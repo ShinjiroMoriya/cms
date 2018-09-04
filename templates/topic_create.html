@@ -83,7 +83,7 @@
                 </tr>
                 <tr>
                     <td style="text-align: center">
-                        <img id="image_url" src="{% if form_data['image_url'] %}{{ form_data['image_url'] }}{% else %}https://placehold.jp/250x250.png{% endif %}" alt="">
+                        <img id="image_url" src="{% if form_data['image_url'] %}{{ form_data['image_url']|thumbnail }}{% else %}https://placehold.jp/250x250.png{% endif %}" alt="">
                     </td>
                     <td>
                         <input type="text" style="margin: 0 0 20px 0" readonly name="image_url" id="input_image_add" class="input_text" placeholder="画像を選択してください" value="{% if form_data['image_url'] %}{{ form_data['image_url'] }}{% endif %}">

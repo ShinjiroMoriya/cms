@@ -68,7 +68,7 @@ class AdminCategoryView(View):
                     'name_en': form.cleaned_data.get('name_en'),
                     'image_url': form.cleaned_data.get('image_url'),
                     'order': form.cleaned_data.get('order'),
-                    'group': form.cleaned_data.get('group'),
+                    'group': Group.get_by_id(form.cleaned_data.get('group')),
                 })
 
                 return HttpResponseRedirect(
@@ -120,7 +120,7 @@ class AdminCategoryCreateView(View):
                     'name_en': form.cleaned_data.get('name_en'),
                     'image_url': form.cleaned_data.get('image_url'),
                     'order': form.cleaned_data.get('order'),
-                    'group': form.cleaned_data.get('group'),
+                    'group': Group.get_by_id(form.cleaned_data.get('group')),
                 })
 
                 return HttpResponseRedirect(
