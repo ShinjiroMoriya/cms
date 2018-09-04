@@ -14,7 +14,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CSRF_COOKIE_SECURE = True
 DEBUG = os.environ.get('DEBUG', None) == 'True'
 FILE_UPLOAD_MAX_MEMORY_SIZE = 5242880
-IP_ADDRESS = os.environ.get('IP_ADDRESS', '').split(',')
 LANGUAGE_CODE = 'ja'
 MAX_UPLOAD_SIZE = 5242880
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
@@ -37,6 +36,11 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = False
 WSGI_APPLICATION = 'feed_app.wsgi.application'
+
+if os.environ.get('IP_ADDRESS') is not None:
+    IP_ADDRESS = os.environ.get('IP_ADDRESS', '').split(',')
+else:
+    IP_ADDRESS = None
 
 INSTALLED_APPS = [
     'django.contrib.contenttypes',

@@ -3,5 +3,5 @@ from home.views import *
 
 
 urlpatterns = [
-    path('<lang>/home', HomeView.as_view()),
+    path('<lang>/home', APIHomeView.as_view()),
 ]

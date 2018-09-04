@@ -19,7 +19,8 @@ class MinifyHTMLMiddleware(object):
     def process_response(_, response):
         if 'text/html' in response['Content-Type']:
             try:
-                response.content = minify_html(response.content.strip())
+                response.content = minify_html(
+                    response.content.strip().decode('utf-8'))
             except DjangoUnicodeDecodeError:
                 pass
         return response

@@ -11,7 +11,6 @@ from introduction.models import Introduction, Title, IntroductionEn, TitleEn
 from group.models import Group
 from topic.models import Topic, TopicEn
 from extra.models import Image
-from extra.forms import ExcludeIDForm
 from extra.serializers import (
     ImagesSerializer, TitlesSerializer, TitlesEnSerializer,
     VideosSerializer, VideosEnSerializer, TopicsSerializer, TopicsEnSerializer,

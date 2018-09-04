@@ -8,7 +8,7 @@ from category.models import Category
 from category.serializers import CategorySerializer, CategoryEnSerializer
 
 
-class HomeView(View):
+class APIHomeView(View):
     @staticmethod
     def get(_, lang):
         if lang == 'ja':

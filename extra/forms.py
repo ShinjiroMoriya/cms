@@ -20,11 +20,6 @@ class StatusForm(forms.Form):
                                error_messages=ERROR_MESSAGES)
 
 
-class ExcludeIDForm(forms.Form):
-    post_id = forms.IntegerField(required=False,
-                                 error_messages=ERROR_MESSAGES)
-
-
 class IntroductionForm(forms.Form):
     name = forms.CharField(required=True,
                            error_messages=ERROR_MESSAGES)
