@@ -10,8 +10,8 @@
   "env": {
     "API_KEY": "",
     "SECRET_KEY": "",
-    "AUTH_CREDENTIALS": "test:demo",
-    "IP_ADDRESS": "0.0.0.0, 127.0.0.1"
+    "AUTH_CREDENTIALS": "",
+    "IP_ADDRESS": ""
   },
   "buildpacks": [
     {

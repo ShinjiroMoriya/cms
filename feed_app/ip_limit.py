@@ -13,6 +13,9 @@ class IpLimitMiddleware(object):
         if request.resolver_match is None:
             return response
 
+        if not settings.IP_ADDRESS:
+            return response
+
         if not request.resolver_match.func.__name__.startswith('Admin'):
             return response
 

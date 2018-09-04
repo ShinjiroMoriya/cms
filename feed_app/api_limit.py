@@ -13,6 +13,9 @@ class APILimitMiddleware(object):
         if request.resolver_match is None:
             return response
 
+        if not settings.API_KEY:
+            return response
+
         if request.resolver_match.func.__name__.startswith('API'):
             api_key = settings.API_KEY
             key = get_auth_key(request)
