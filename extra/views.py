@@ -375,7 +375,7 @@ class AdminGroupsAPIView(View):
 
 class AdminNotFoundView(View):
     @staticmethod
-    def get(_):
+    def get(_, *args, **kwargs):
         return JsonResponse({
             'status': 404,
             'message': 'Not Found'
@@ -384,12 +384,7 @@ class AdminNotFoundView(View):
 
 class AdminApplicationError(View):
     @staticmethod
-    def get(_):
-        try:
-            logger.error(sys.exc_info())
-        except:
-            pass
-
+    def get(_, *args, **kwargs):
         return JsonResponse({
             'status': 500,
             'message': 'Application Error'
