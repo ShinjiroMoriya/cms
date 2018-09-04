@@ -1,5 +1,6 @@
 from django.urls import re_path, path, include, register_converter
 from django.conf import settings
+from django.views.generic import TemplateView
 from extra.views import AdminApplicationError, AdminNotFoundView
 
 
@@ -27,6 +28,8 @@ urlpatterns = [
     path('', include('introduction.urls')),
     path('', include('topic.urls')),
     path('', include('video.urls')),
+    path('favicon.ico', TemplateView.as_view(template_name='favicon.ico')),
+
 ]
 
 if settings.DEBUG:

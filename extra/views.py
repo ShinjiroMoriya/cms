@@ -179,7 +179,7 @@ class AdminImagesListView(View):
 
 class AdminImageAddView(View):
     @staticmethod
-    def post(request, _lang):
+    def post(request, lang):
         image_model = Image()
 
         file = request.FILES.get('image_file')
@@ -197,6 +197,7 @@ class AdminImageAddView(View):
                 'title': image_data.get('title'),
                 'image_id': image_data.get('image_id'),
                 'image_url': image_data.get('image_url'),
+                'lang': lang,
             })
 
             return JsonResponse({
