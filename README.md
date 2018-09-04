@@ -17,5 +17,5 @@
 - AUTH_CREDENTIALS": "test:demo"
 - IP_ADDRESS": "0.0.0.0, 127.0.0.1"
 
-ベーシック認証（AUTH_CREDENTIALS）は[ID]:[PASSWORD]形式で指定する。無い場合は制限なし。
+ベーシック認証（AUTH_CREDENTIALS）は[ID]:[PASSWORD]形式で指定する。無い場合は制限なし。<br>
 IP_ADDRESSはカンマ区切りで指定する。無い場合は制限なし。
