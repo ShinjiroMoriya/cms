@@ -1,0 +1,105 @@
+{%- macro videos(videos, lang, video_id='') %}
+<table class="table">
+    <tr>
+        <th>動画一覧</th>
+        <th>選択一覧</th>
+    </tr>
+    <tr>
+        <td><ul class="text_list" id="videos_list" data-lang="{{ lang }}" data-video_id="{{ video_id }}"></ul></td>
+        <td>
+            <ul class="text_list add_list">
+                {%- for video in videos %}
+                <li><input type="checkbox" name="videos" checked value="{{ video.id }}" id="videos_{{ video.id }}"><label for="videos_{{ video.id }}">{{ video.title }}</label></li>
+                {%- endfor %}
+            </ul>
+        </td>
+    </tr>
+</table>
+{%- endmacro %}
+
+{%- macro titles(titles, lang) %}
+<table class="table">
+    <tr>
+        <th>タイトル一覧</th>
+        <th>選択一覧</th>
+    </tr>
+    <tr>
+        <td><ul class="text_list" id="titles_list" data-lang="{{ lang }}"></ul></td>
+        <td>
+            <ul class="text_list">
+                {%- for title in titles %}
+                <li><input type="checkbox" name="titles" checked value="{{ title.id }}" id="titles_{{ title.id }}"><label for="titles_{{ title.id }}">{{ title.title }}</label></li>
+                {%- endfor %}
+            </ul>
+        </td>
+    </tr>
+</table>
+{%- endmacro %}
+
+{%- macro topics(topics, lang) %}
+<table class="table">
+    <tr>
+        <th>トピックス一覧</th>
+        <th>選択一覧</th>
+    </tr>
+    <tr>
+        <td><ul class="text_list" id="topics_list" data-lang="{{ lang }}"></ul></td>
+        <td>
+            <ul class="text_list add_list">
+                {%- for topic in topics %}
+                <li><input type="checkbox" name="topics" checked value="{{ topic.id }}" id="topics_{{ topic.id }}"><label for="topics_{{ topic.id }}">{{ topic.title }}</label></li>
+                {%- endfor %}
+            </ul>
+        </td>
+    </tr>
+</table>
+{%- endmacro %}
+
+{%- macro introductions(introductions, lang) %}
+<table class="table">
+    <tr>
+        <th>イントロダクション一覧</th>
+        <th>選択一覧</th>
+    </tr>
+    <tr>
+        <td><ul class="text_list" id="introductions_list" data-lang="{{ lang }}"></ul></td>
+        <td>
+            <ul class="text_list">
+                {%- for introduction in introductions %}
+                <li><input type="checkbox" name="introductions" checked value="{{ introduction.id }}" id="introductions_{{ introduction.id }}"><label for="introductions_{{ introduction.id }}">{{ introduction.name }}</label></li>
+                {%- endfor %}
+            </ul>
+        </td>
+    </tr>
+</table>
+{%- endmacro %}
+
+{%- macro categories(categories, groups) %}
+<table class="table">
+    <tr>
+        <th>カテゴリー一覧</th>
+        <th>選択一覧</th>
+    </tr>
+    <tr>
+        <td>
+            <ul class="text_list" id="categories_list"></ul>
+        </td>
+        <td>
+            <ul class="text_list">
+                {%- for group in groups %}
+                <li>{{ group.name }}<ul class="text_list_child" id="group_{{ group.id }}">
+                    {%- if categories %}
+                    {%- for category in categories %}
+                    {%- if category.group_id == group.id %}
+                    <li><input type="checkbox" name="categories" checked value="{{ category.id }}" id="categories_{{ category.id }}"><label for="categories_{{ category.id }}">{{ category.name_ja }} / {{ category.name_en }}</label></li>
+                    {%- endif %}
+                    {%- endfor %}
+                    {%- endif %}
+                    </ul>
+                </li>
+                {%- endfor %}
+            </ul>
+        </td>
+    </tr>
+</table>
+{%- endmacro %}

@@ -1,0 +1,24 @@
+{% extends "parts/layout.html" %}
+{% block body %}
+<div class="header_status"><p class="header_status_text"></p></div>
+<div class="container">
+    <main class="content">
+        <h2 class="page_title">グループ</h2>
+        <p class="link_button _space">
+            <a href="/{{ lang }}/admin/groups/create" class="a_link">新規投稿</a>
+        </p>
+        <table class="table">
+            <tr>
+                <td class="table_title">名前</td>
+            </tr>
+            {%- for group in groups %}
+            <tr>
+                <td><a href="/{{ lang }}/admin/groups/{{ group.id }}" class="a_link">{{ group.name }}</a></td>
+            </tr>
+            {%- endfor %}
+        </table>
+    </main>
+</div>
+{% endblock %}
+{% block javascript %}
+{% endblock %}

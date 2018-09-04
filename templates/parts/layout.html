@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=1000">
+    <meta name="robots" content="noindex, nofollow">
+    <title>{{ title }}</title>
+	{% block style %}{% endblock %}
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="header">
+        <h1 class="header_title">FEED App 管理 / {% if lang == 'ja' %}日本語{% else %}英語{% endif %}</h1>
+        <ul class="header_menu">
+            <li><a href="/{{ lang }}/admin">トップ</a></li>
+            <li><a href="/{{ lang }}/admin/introductions">イントロダクション</a></li>
+            <li><a href="/{{ lang }}/admin/titles">タイトル</a></li>
+            <li><a href="/{{ lang }}/admin/videos">動画</a></li>
+            <li><a href="/{{ lang }}/admin/topics">トピック</a></li>
+            <li><a href="/{{ lang }}/admin/images">画像</a></li>
+            <li><a href="/{{ lang }}/admin/groups">グループ</a></li>
+            <li><a href="/{{ lang }}/admin/categories">カテゴリー</a></li>
+        </ul>
+        <ul class="header_menu_right">
+            <li><a href="/ja/admin">日本語</a></li>
+            <li>/</li>
+            <li><a href="/en/admin">英語</a></li>
+        </ul>
+	</header>
+    {% from "parts/pager.html" import pager with context %}
+    {% block body %}{% endblock %}
+    <script src="/assets/js/jquery.js"></script>
+    {% block javascript %}{% endblock %}
+    <script src="/assets/js/script.min.js"></script>
+</body>
+</html>

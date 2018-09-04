@@ -1,0 +1,122 @@
+{% extends "parts/layout.html" %}
+{%- from "parts/relation_parts.html" import videos with context %}
+{% block style %}
+<link rel="stylesheet" href="/assets/lib/lity/lity.min.css">
+{% endblock %}
+{% block body %}
+<div class="header_status"><p class="header_status_text"></p></div>
+<div class="container">
+    <main class="content">
+        <h2 class="page_title">カテゴリー</h2>
+        {%- for mes in error_messages['name_ja'] %}
+        {%- if mes == 'required' %}
+        <p class="error_text">名前・日本語を入力してください。</p>
+        {%- endif %}
+        {%- if mes == 'invalid' %}
+        <p class="error_text">名前・日本語を正しく入力してください。</p>
+        {%- endif %}
+        {%- endfor %}
+        {%- for mes in error_messages['name_en'] %}
+        {%- if mes == 'required' %}
+        <p class="error_text">名前・英語を入力してください。</p>
+        {%- endif %}
+        {%- if mes == 'invalid' %}
+        <p class="error_text">名前・英語を正しく入力してください。</p>
+        {%- endif %}
+        {%- endfor %}
+        {%- for mes in error_messages['order'] %}
+        {%- if mes == 'required' %}
+        <p class="error_text">並び順番号を入力してください。</p>
+        {%- endif %}
+        {%- if mes == 'invalid' %}
+        <p class="error_text">並び順番号を正しく入力してください。</p>
+        {%- endif %}
+        {%- endfor %}
+        {%- for mes in error_messages['group'] %}
+        {%- if mes == 'required' %}
+        <p class="error_text">グループを選択してください。</p>
+        {%- endif %}
+        {%- if mes == 'invalid' %}
+        <p class="error_text">グループを正しく選択してください。</p>
+        {%- endif %}
+        {%- endfor %}
+        {%- for mes in error_messages['image_url'] %}
+        {%- if mes == 'required' %}
+        <p class="error_text">イメージ画像を選択してください。</p>
+        {%- endif %}
+        {%- if mes == 'invalid' %}
+        <p class="error_text">イメージ画像を正しく入力してください。</p>
+        {%- endif %}
+        {%- endfor %}
+        <form method="POST">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            <table class="table">
+                <tr>
+                    <th>名前・日本語</th>
+                    <td>
+                        <input type="text" name="name_ja" class="input_text" placeholder="入力してください" value="{% if form_data['name_ja'] %}{{ form_data['name_ja'] }}{% endif %}">
+                    </td>
+                </tr>
+                <tr>
+                    <th>名前・英語</th>
+                    <td>
+                        <input type="text" name="name_en" class="input_text" placeholder="入力してください" value="{% if form_data['name_en'] %}{{ form_data['name_en'] }}{% endif %}">
+                    </td>
+                </tr>
+                <tr>
+                    <th>並び順</th>
+                    <td>
+                        <input type="text" name="order" class="input_text" placeholder="入力してください" value="{% if form_data['order'] %}{{ form_data['order'] }}{% endif %}">
+                    </td>
+                </tr>
+                <tr>
+                    <th>グループ</th>
+                    <td>
+                        <select name="group" class="input_select">
+                            <option value="">選択してください</option>
+                            {%- for group in groups %}
+                            {%- if group.id == form_data['group'] %}
+                            <option value="{{ group.id }}" selected>{{ group.name }}</option>
+                            {%- else %}
+                            <option value="{{ group.id }}">{{ group.name }}</option>
+                            {%- endif %}
+                            {%- endfor %}
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <table class="table">
+                <tr>
+                    <th>イメージ画像</th>
+                    <th>URL</th>
+                </tr>
+                <tr>
+                    <td style="text-align: center">
+                        <img id="image_url" src="{% if form_data['image_url'] %}{{ form_data['image_url'] }}{% else %}https://placehold.jp/250x250.png{% endif %}" alt="">
+                    </td>
+                    <td>
+                        <input type="text" style="margin: 0 0 20px 0" readonly name="image_url" id="input_image_add" class="input_text" placeholder="画像を選択してください" value="{% if form_data['image_url'] %}{{ form_data['image_url'] }}{% endif %}">
+                        <div style="margin: 0 0 20px 0">
+                            <input type="button" id="input_image_add_button" data-lang="{{ lang }}" value="ファイルから選択する" class="button_1">
+                        </div>
+                        <input type="button" id="input_image_list_add_button" data-lang="{{ lang }}" value="一覧から選択する" class="button_1">
+                        <div id="image_list_block" style="display: none; padding: 20px 0 0 0;">
+                            <table class="table" style="margin: 0">
+                                <tr><td class="table_image_title">ファイル名</td></tr>
+                                <tr><td><ul class="text_list" id="image_list"></ul></td></tr>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <input type="submit" value="保存する" class="button_1">
+        </form>
+        <form id="image_upload" method="POST" enctype="multipart/form-data">
+            <input name="image_file" type="file" class="upload" id="upload" accept="image/*">
+        </form>
+    </main>
+</div>
+{% endblock %}
+{% block javascript %}
+<script src="/assets/lib/lity/lity.min.js"></script>
+{% endblock %}

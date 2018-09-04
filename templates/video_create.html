@@ -1,0 +1,87 @@
+{% extends "parts/layout.html" %}
+{%- from "parts/relation_parts.html" import videos with context %}
+{%- from "parts/relation_parts.html" import topics with context %}
+{%- from "parts/relation_parts.html" import introductions with context %}
+{%- from "parts/relation_parts.html" import categories with context %}
+{% block body %}
+<div class="header_status"><p class="header_status_text"></p></div>
+<div class="container">
+    <main class="content">
+        <h2 class="page_title">動画</h2>
+        {%- for mes in error_messages['published_at'] %}
+        {%- if mes == 'required' %}
+        <p class="error_text">公開日時を入力してください。</p>
+        {%- endif %}
+        {%- if mes == 'invalid' %}
+        <p class="error_text">公開日時を正しく入力してください。</p>
+        {%- endif %}
+        {%- endfor %}
+        {%- for mes in error_messages['title'] %}
+        {%- if mes == 'required' %}
+        <p class="error_text">タイトルを入力してください。</p>
+        {%- endif %}
+        {%- if mes == 'invalid' %}
+        <p class="error_text">タイトルを正しく入力してください。</p>
+        {%- endif %}
+        {%- endfor %}
+        {%- for mes in error_messages['body'] %}
+        {%- if mes == 'required' %}
+        <p class="error_text">本文を入力してください。</p>
+        {%- endif %}
+        {%- if mes == 'invalid' %}
+        <p class="error_text">本文を正しく入力してください。</p>
+        {%- endif %}
+        {%- endfor %}
+        {%- for mes in error_messages['youtube_id'] %}
+        {%- if mes == 'required' %}
+        <p class="error_text">Youtube IDを入力してください。</p>
+        {%- endif %}
+        {%- if mes == 'invalid' %}
+        <p class="error_text">Youtube IDを正しく入力してください。</p>
+        {%- endif %}
+        {%- endfor %}
+        <form method="POST">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            <table class="table">
+                <tr>
+                    <th>公開日時</th>
+                    <td>
+                        <input type="text" name="published_at" class="input_text" value="{% if form_data['published_at'] %}{{ form_data['published_at'] }}{% else %}{{ date_now }}{% endif %}">
+                    </td>
+                </tr>
+                <tr>
+                    <th>タイトル</th>
+                    <td>
+                        <input type="text" name="title" class="input_text" placeholder="入力してください" value="{% if form_data['title'] %}{{ form_data['title'] }}{% endif %}">
+                    </td>
+                </tr>
+                <tr>
+                    <th>本文</th>
+                    <td>
+                        <textarea name="body" class="input_textarea" placeholder="入力してください">{% if form_data['body'] %}{{ form_data['body'] }}{% endif %}</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Youtube ID</th>
+                    <td>
+                        <input type="text" name="youtube_id" class="input_text" placeholder="入力してください" value="{% if form_data['youtube_id'] %}{{ form_data['youtube_id'] }}{% endif %}">
+                    </td>
+                </tr>
+                <tr>
+                    <th>ピックアップ</th>
+                    <td>
+                        <input type="checkbox" name="pickup" id="pickup" value="1" {% if form_data['pickup'] %}checked{% endif %}><label for="pickup">&nbsp;</label>
+                    </td>
+                </tr>
+            </table>
+            {{ categories(select_categories, groups) }}
+            {{ introductions(select_introductions, lang) }}
+            {{ topics(select_topics, lang) }}
+            {{ videos(select_videos, lang) }}
+            <input type="submit" value="下書き保存する" class="button_1">
+        </form>
+    </main>
+</div>
+{% endblock %}
+{% block javascript %}
+{% endblock %}

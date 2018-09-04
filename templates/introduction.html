@@ -1,0 +1,106 @@
+{% extends "parts/layout.html" %}
+{%- from "parts/relation_parts.html" import videos with context %}
+{%- from "parts/relation_parts.html" import titles with context %}
+{% block style %}
+<link rel="stylesheet" href="/assets/lib/lity/lity.min.css">
+{% endblock %}
+{% block body %}
+<div class="header_status"><p class="header_status_text"></p></div>
+<div class="container">
+    <main class="content">
+        <h2 class="page_title">イントロダクション</h2>
+        {%- for mes in error_messages['published_at'] %}
+        {%- if mes == 'required' %}
+        <p class="error_text">公開日時を入力してください。</p>
+        {%- endif %}
+        {%- if mes == 'invalid' %}
+        <p class="error_text">公開日時を正しく入力してください。</p>
+        {%- endif %}
+        {%- endfor %}
+        {%- for mes in error_messages['name'] %}
+        {%- if mes == 'required' %}
+        <p class="error_text">名前を入力してください。</p>
+        {%- endif %}
+        {%- if mes == 'invalid' %}
+        <p class="error_text">名前を正しく入力してください。</p>
+        {%- endif %}
+        {%- endfor %}
+        {%- for mes in error_messages['body'] %}
+        {%- if mes == 'required' %}
+        <p class="error_text">本文を入力してください。</p>
+        {%- endif %}
+        {%- if mes == 'invalid' %}
+        <p class="error_text">本文を正しく入力してください。</p>
+        {%- endif %}
+        {%- endfor %}
+        {%- for mes in error_messages['thumbnail_url'] %}
+        {%- if mes == 'required' %}
+        <p class="error_text">サムネイル画像を選択してください。</p>
+        {%- endif %}
+        {%- if mes == 'invalid' %}
+        <p class="error_text">サムネイル画像を正しく入力してください。</p>
+        {%- endif %}
+        {%- endfor %}
+        <form method="POST">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            <table class="table">
+                <tr>
+                    <th>公開日時</th>
+                    <td>
+                        <input type="text" name="published_at" class="input_text" value="{% if form_data['published_at'] %}{{ form_data['published_at'] }}{% else %}{{ introduction.published_at|datetime('%Y-%m-%d %H:%M') }}{% endif %}">
+                    </td>
+                </tr>
+                <tr>
+                    <th>名前</th>
+                    <td>
+                        <input type="text" name="name" class="input_text" placeholder="入力してください" value="{% if form_data['name'] %}{{ form_data['name'] }}{% else %}{{ introduction.name }}{% endif %}">
+                    </td>
+                </tr>
+                <tr>
+                    <th>本文</th>
+                    <td>
+                        <textarea name="body" class="input_textarea" placeholder="入力してください">{% if form_data['body'] %}{{ form_data['body'] }}{% else %}{{ introduction.body }}{% endif %}</textarea>
+                    </td>
+                </tr>
+            </table>
+            <table class="table">
+                <tr>
+                    <th>サムネイル</th>
+                    <th>URL</th>
+                </tr>
+                <tr>
+                    <td style="text-align: center">
+                        <img id="image_url" src="{{ introduction.thumbnail_url|thumbnail }}" alt="">
+                    </td>
+                    <td>
+                        <input type="text" style="margin: 0 0 20px 0" readonly name="thumbnail_url" id="input_image_add" class="input_text" placeholder="画像URLを入力してください" value="{% if form_data['thumbnail_url'] %}{{ form_data['thumbnail_url'] }}{% else %}{{ introduction.thumbnail_url }}{% endif %}">
+                        <div style="margin: 0 0 20px 0">
+                            <input type="button" id="input_image_add_button" data-lang="{{ lang }}" value="ファイルから選択する" class="button_1">
+                        </div>
+                        <input type="button" id="input_image_list_add_button" data-lang="{{ lang }}" value="一覧から選択する" class="button_1">
+                        <div id="image_list_block" style="display: none; padding: 20px 0 0 0;">
+                            <table class="table" style="margin: 0">
+                                <tr><td class="table_image_title">ファイル名</td></tr>
+                                <tr><td><ul class="text_list" id="image_list"></ul></td></tr>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            {{ titles(use_titles, lang) }}
+            {{ videos(use_videos, lang) }}
+            <input type="submit" value="保存する" class="button_1">
+        </form>
+        <form method="POST" action="/{{ lang }}/admin/introductions/{{ introduction.id }}/delete" class="bottom_form">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            <input type="submit" value="削除する" class="button_2" id="delete_button">
+        </form>
+        <form id="image_upload" method="POST" enctype="multipart/form-data">
+            <input name="image_file" type="file" class="upload" id="upload" accept="image/*">
+        </form>
+    </main>
+</div>
+{% endblock %}
+{% block javascript %}
+<script src="/assets/lib/lity/lity.min.js"></script>
+{% endblock %}

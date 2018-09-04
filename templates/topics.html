@@ -1,0 +1,41 @@
+{% extends "parts/layout.html" %}
+{% block body %}
+<div class="header_status"><p class="header_status_text"></p></div>
+<div class="container">
+    <main class="content">
+        <h2 class="page_title">トピックス</h2>
+        <p class="link_button _space">
+            <a href="/{{ lang }}/admin/topics/create" class="a_link">新規投稿</a>
+        </p>
+        <table class="table">
+            <tr>
+                <td class="table_title">タイトル</td>
+                <td class="table_status">公開ステータス</td>
+                <td class="table_date">公開日時</td>
+            </tr>
+            {%- for topic in topics %}
+            <tr>
+                <td><a href="/{{ lang }}/admin/topics/{{ topic.id }}" class="a_link">{{ topic.title }}</a></td>
+                <td>
+                    <select name="status" class="status_select input_select" data-lang="{{ lang }}" data-post_type="topic" data-post_id="{{ topic.id }}">
+                        <option value="2"{% if topic.status == 2 %} selected{% endif %}>下書き</option>
+                        <option value="3"{% if topic.status == 3 %} selected{% endif %}>非公開</option>
+                        <option value="1"{% if topic.status == 1 %} selected{% endif %}>公開</option>
+                    </select>
+                </td>
+                <td>{{ topic.published_at|datetime('%Y-%m-%d %H:%M') }}</td>
+            </tr>
+            {%- endfor %}
+        </table>
+        {%- if topics %}
+        {{ pager({
+            'information': information,
+            'pagination': pagination,
+        }) }}
+        <p class="data_page_text">{{ information }}</p>
+        {%- endif %}
+    </main>
+</div>
+{% endblock %}
+{% block javascript %}
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "parts/layout.html" %}
+{%- from "parts/relation_parts.html" import introductions with context %}
+{% block body %}
+<div class="header_status"><p class="header_status_text"></p></div>
+<div class="container">
+    <main class="content">
+        <h2 class="page_title">タイトル</h2>
+        {%- for mes in error_messages['title'] %}
+        {%- if mes == 'required' %}
+        <p class="error_text">タイトルを入力してください。</p>
+        {%- endif %}
+        {%- if mes == 'invalid' %}
+        <p class="error_text">タイトルを正しく入力してください。</p>
+        {%- endif %}
+        {%- endfor %}
+        <form method="POST">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            <table class="table">
+                <tr>
+                    <th>タイトル</th>
+                    <td>
+                        <input type="text" name="title" class="input_text" placeholder="入力してください" value="{% if form_data['title'] %}{{ form_data['title'] }}{% endif %}">
+                    </td>
+                </tr>
+            </table>
+            {{ introductions(select_introductions, lang) }}
+            <input type="submit" value="保存する" class="button_1">
+        </form>
+    </main>
+</div>
+{% endblock %}
+{% block javascript %}
+{% endblock %}

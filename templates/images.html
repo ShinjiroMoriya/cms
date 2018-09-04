@@ -1,0 +1,59 @@
+{% extends "parts/layout.html" %}
+{% block style %}
+<link rel="stylesheet" href="/assets/lib/lity/lity.min.css">
+{% endblock %}
+{% block body %}
+<div class="header_status"><p class="header_status_text"></p></div>
+<div class="container">
+    <main class="content">
+        <h2 class="page_title">画像一覧</h2>
+        <input type="text" style="display: none; margin: 0 0 20px 0" readonly name="thumbnail_url" id="input_image_add" class="input_text" placeholder="画像を選択してください" value="">
+        <input style="margin: 0 0 20px 0" type="button" id="input_image_add_button" data-refresh_href="/{{ lang }}/admin/images" value="新規登録" class="button_1">
+        <table class="table">
+            <tr>
+                <td class="table_image">画像</td>
+                <td class="table_image_title">タイトル/URL</td>
+                <td class="table_delete">&nbsp;</td>
+            </tr>
+            {%- for image in images %}
+            <tr>
+                <td>
+                    <a href="{{ image.image_url }}" data-lity>
+                        <img src="{{ image.image_url|thumbnail }}" alt="">
+                    </a>
+                </td>
+                <td>
+                    <div style="margin: 0 0 20px 0;">
+                        <input type="text" readonly value="{{ image.title }}" class="input_text" style="margin: 0 0 10px 0;">
+                        <input type="text" readonly value="{{ image.image_url }}" class="input_text">
+                    </div>
+                    <p>
+                        <a href="{{ image.image_url }}" data-lity class="a_link">確認</a>
+                    </p>
+                </td>
+                <td>
+                    <p class="link_button">
+                        <a href="javascript:;" data-href="/{{ lang }}/admin/images/delete/{{ image.image_id }}" data-image_id="{{ image.image_id }}" data-lang="{{ lang }}" class="image_delete_check">削除</a>
+                    </p>
+                </td>
+            </tr>
+            {%- endfor %}
+        </table>
+        {%- if images %}
+        {{ pager({
+            'information': information,
+            'pagination': pagination,
+        }) }}
+        {%- if images %}
+        <p class="data_page_text">{{ information }}</p>
+        {%- endif %}
+        {%- endif %}
+        <form id="image_upload" method="POST" enctype="multipart/form-data">
+            <input name="image_file" type="file" class="upload" id="upload" accept="image/*">
+        </form>
+    </main>
+</div>
+{% endblock %}
+{% block javascript %}
+<script src="/assets/lib/lity/lity.min.js"></script>
+{% endblock %}

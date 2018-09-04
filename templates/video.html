@@ -1,0 +1,94 @@
+{% extends "parts/layout.html" %}
+{%- from "parts/relation_parts.html" import videos with context %}
+{%- from "parts/relation_parts.html" import topics with context %}
+{%- from "parts/relation_parts.html" import introductions with context %}
+{%- from "parts/relation_parts.html" import categories with context %}
+{% block body %}
+<div class="header_status"><p class="header_status_text"></p></div>
+<div class="container">
+    <main class="content">
+        <h2 class="page_title">動画</h2>
+        {%- for mes in error_messages['published_at'] %}
+        {%- if mes == 'required' %}
+        <p class="error_text">公開日時を入力してください。</p>
+        {%- endif %}
+        {%- if mes == 'invalid' %}
+        <p class="error_text">公開日時を正しく入力してください。</p>
+        {%- endif %}
+        {%- endfor %}
+        {%- for mes in error_messages['title'] %}
+        {%- if mes == 'required' %}
+        <p class="error_text">タイトルを入力してください。</p>
+        {%- endif %}
+        {%- if mes == 'invalid' %}
+        <p class="error_text">タイトルを正しく入力してください。</p>
+        {%- endif %}
+        {%- endfor %}
+        {%- for mes in error_messages['body'] %}
+        {%- if mes == 'required' %}
+        <p class="error_text">本文を入力してください。</p>
+        {%- endif %}
+        {%- if mes == 'invalid' %}
+        <p class="error_text">本文を正しく入力してください。</p>
+        {%- endif %}
+        {%- endfor %}
+        {%- for mes in error_messages['youtube_id'] %}
+        {%- if mes == 'required' %}
+        <p class="error_text">Youtube IDを入力してください。</p>
+        {%- endif %}
+        {%- if mes == 'invalid' %}
+        <p class="error_text">Youtube IDを正しく入力してください。</p>
+        {%- endif %}
+        {%- endfor %}
+        <form method="POST">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            <table class="table">
+                <tr>
+                    <th>公開日時</th>
+                    <td>
+                        <input type="text" name="published_at" class="input_text" value="{% if form_data['published_at'] %}{{ form_data['published_at'] }}{% else %}{{ video.published_at|datetime('%Y-%m-%d %H:%M') }}{% endif %}">
+                    </td>
+                </tr>
+                <tr>
+                    <th>名前</th>
+                    <td>
+                        <input type="text" name="title" class="input_text" placeholder="入力してください" value="{% if form_data['title'] %}{{ form_data['title'] }}{% else %}{% if video.title %}{{ video.title }}{% endif %}{% endif %}">
+                    </td>
+                </tr>
+                <tr>
+                    <th>本文</th>
+                    <td>
+                        <textarea name="body" class="input_textarea" placeholder="入力してください">{% if form_data['body'] %}{{ form_data['body'] }}{% else %}{% if video.body %}{{ video.body }}{% endif %}{% endif %}</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Youtube ID</th>
+                    <td>
+                        <input type="text" name="youtube_id" class="input_text" placeholder="入力してください" value="{% if form_data['youtube_id'] %}{{ form_data['youtube_id'] }}{% else %}{{ video.youtube_id }}{% endif %}">
+                        <div style="width: 200px; padding: 20px 0 0 0">
+                            <iframe width="100%" height="auto" src="https://www.youtube.com/embed/{{ video.youtube_id }}?rel=0&amp;controls=1&amp;showinfo=0&amp;autoplay=0&amp;loop=0" allow="autoplay; encrypted-media" frameborder="0"></iframe>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>ピックアップ</th>
+                    <td>
+                        <input type="checkbox" name="pickup" id="pickup" value="1" {% if form_data['pickup'] %}checked{% elif video.pickup %}checked{% endif %}><label for="pickup">&nbsp;</label>
+                    </td>
+                </tr>
+            </table>
+            {{ categories(use_categories, groups) }}
+            {{ introductions(use_introductions, lang) }}
+            {{ topics(use_topics, lang) }}
+            {{ videos(use_videos, lang, video.id) }}
+            <input type="submit" value="保存する" class="button_1">
+        </form>
+        <form method="POST" action="/{{ lang }}/admin/videos/{{ video.id }}/delete" class="bottom_form">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            <input type="submit" value="削除する" class="button_2" id="delete_button">
+        </form>
+    </main>
+</div>
+{% endblock %}
+{% block javascript %}
+{% endblock %}

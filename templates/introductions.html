@@ -1,0 +1,41 @@
+{% extends "parts/layout.html" %}
+{% block body %}
+<div class="header_status"><p class="header_status_text"></p></div>
+<div class="container">
+    <main class="content">
+        <h2 class="page_title">イントロダクション</h2>
+        <p class="link_button _space">
+            <a href="/{{ lang }}/admin/introductions/create" class="a_link">新規投稿</a>
+        </p>
+        <table class="table">
+            <tr>
+                <td class="table_title">名前</td>
+                <td class="table_status">ステータス</td>
+                <td class="table_date">公開日時</td>
+            </tr>
+            {%- for introduction in introductions %}
+            <tr>
+                <td><a href="/{{ lang }}/admin/introductions/{{ introduction.id }}" class="a_link">{{ introduction.name }}</a></td>
+                <td>
+                    <select name="status" class="status_select input_select" data-lang="{{ lang }}" data-post_type="introduction" data-post_id="{{introduction.id}}">
+                        <option value="2"{% if introduction.status == 2 %} selected{% endif %}>下書き</option>
+                        <option value="3"{% if introduction.status == 3 %} selected{% endif %}>非公開</option>
+                        <option value="1"{% if introduction.status == 1 %} selected{% endif %}>公開</option>
+                    </select>
+                </td>
+                <td>{{ introduction.published_at|datetime('%Y-%m-%d %H:%M') }}</td>
+            </tr>
+            {%- endfor %}
+        </table>
+        {%- if introductions %}
+        {{ pager({
+            'information': information,
+            'pagination': pagination,
+        }) }}
+        <p class="data_page_text">{{ information }}</p>
+        {%- endif %}
+    </main>
+</div>
+{% endblock %}
+{% block javascript %}
+{% endblock %}
