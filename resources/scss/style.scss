@@ -129,11 +129,21 @@
         text-align: left;
         font-size: 16px;
         line-height: 1.5;
-        padding: 24px 10px 10px 15px;
+        padding: 24px 10px 24px 15px;
         vertical-align: top;
     }
     &._no_space {
         margin: 0;
+    }
+    &._relation {
+        th
+        {
+            text-align: left;
+            font-size: 16px;
+            line-height: 1.5;
+            padding: 20px 10px 10px 20px;
+            vertical-align: top;
+        }
     }
 }
 .table_date
@@ -363,7 +373,7 @@
         li {
             margin: 0 0 10px 0;
             font-size: 16px;
-            line-height: 1.5;
+            line-height: 16px;
             &:first-child
             {
                 padding: 10px 0 0 0;
