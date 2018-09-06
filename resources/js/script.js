@@ -313,15 +313,6 @@ $(document).on('click', '.title_more_link', function() {
     get_titles(paged, lang, null);
 });
 
-$('.titles_search').on('blur', function() {
-    if ($(this).val() === '') {
-        $('#titles_list').find('li').remove();
-        var lang = $('#titles_list').attr('data-lang');
-        var value = $('.titles_search').val();
-        get_titles(1, lang, value);
-    }
-});
-
 $('.titles_search_button').on('click', function() {
     $('#titles_list').find('li').remove();
     var lang = $('#titles_list').attr('data-lang');
@@ -381,16 +372,6 @@ $(document).on('click', '.video_more_link', function() {
     get_videos(paged, lang, video_id, value);
 });
 
-$('.videos_search').on('blur', function() {
-    if ($(this).val() === '') {
-        $('#videos_list').find('li').remove();
-        var lang = $('#videos_list').attr('data-lang');
-        var video_id = $('#videos_list').attr('data-video_id');
-        var value = $('.videos_search').val();
-        get_videos(1, lang, video_id, value);
-    }
-});
-
 $('.videos_search_button').on('click', function() {
     $('#videos_list').find('li').remove();
     var lang = $('#videos_list').attr('data-lang');
@@ -398,7 +379,6 @@ $('.videos_search_button').on('click', function() {
     var value = $('.videos_search').val();
     get_videos(1, lang, video_id, value);
 });
-
 
 function get_introductions(paged, lang, value) {
     $.ajax({
@@ -447,22 +427,12 @@ $(document).on('click', '.introduction_more_link', function() {
     get_introductions(paged, lang, value);
 });
 
-$('.introductions_search').on('blur', function() {
-    if ($(this).val() === '') {
-        $('#introductions_list').find('li').remove();
-        var lang = $('#introductions_list').attr('data-lang');
-        var value = $('.introductions_search').val();
-        get_introductions(1, lang, value);
-    }
-});
-
 $('.introductions_search_button').on('click', function() {
     $('#introductions_list').find('li').remove();
     var lang = $('#introductions_list').attr('data-lang');
     var value = $('.introductions_search').val();
     get_introductions(1, lang, value);
 });
-
 
 function get_topics(paged, lang, value) {
     $.ajax({
@@ -511,22 +481,12 @@ $(document).on('click', '.topic_more_link', function() {
     get_topics(paged, lang, value);
 });
 
-$('.topics_search').on('blur', function() {
-    if ($(this).val() === '') {
-        $('#topics_list').find('li').remove();
-        var lang = $('#topics_list').attr('data-lang');
-        var value = $('.topics_search').val();
-        get_topics(1, lang, value);
-    }
-});
-
 $('.topics_search_button').on('click', function() {
     $('#topics_list').find('li').remove();
     var lang = $('#topics_list').attr('data-lang');
     var value = $('.topics_search').val();
     get_topics(1, lang, value);
 });
-
 
 function get_categories() {
     $.ajax({
