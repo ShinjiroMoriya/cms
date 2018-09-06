@@ -496,7 +496,7 @@ function get_categories() {
 
     }).done(function(data) {
         $.each(data.groups, function(i, group) {
-            $('#categories_list').append('<li>' + group.name + '</li>');
+            $('#categories_list').append('<li class="_group">' + group.name + '</li>');
             $.each(group.categories, function(i, category) {
                 var _name = category.name_ja + ' / ' + category.name_en;
                 $('#categories_list').append('<li>' + limit_text(_name) + ' <a href="javascript:;" class="a_link choice_list" data-group_id="group_' + group.id + '" data-add_id="' + category.id + '" data-post_title="' + limit_text(_name) + '" data-post_type="categories">選択</a></li>');

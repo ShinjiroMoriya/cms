@@ -3,24 +3,30 @@
 
 .header
 {
-    background: #e60012;
-    padding: 30px;
-    height: 80px;
-    top: 0;
-    left : 0;
-    @include clearfix;
     position: fixed;
-    width: 100%;
-    box-sizing: border-box;
     z-index: 10;
+    top: 0;
+    left: 0;
+
+    box-sizing: border-box;
+    width: 100%;
+    height: 80px;
+    padding: 30px;
+
+    background: #e60012;
+
+    @include clearfix;
 }
 .header_title
 {
-    color: #fff;
     font-size: 16px;
     font-weight: bold;
+
     float: left;
+
     margin: 0 20px 0 0;
+
+    color: #fff;
 }
 .header_menu
 {
@@ -28,9 +34,12 @@
 
     li
     {
-        float: left;
-        margin: 0 0 0 20px;
         font-size: 12px;
+
+        float: left;
+
+        margin: 0 0 0 20px;
+
         color: #fff;
         a
         {
@@ -47,9 +56,12 @@
 
     li
     {
-        float: left;
-        margin: 0 0 0 5px;
         font-size: 12px;
+
+        float: left;
+
+        margin: 0 0 0 5px;
+
         color: #fff;
         a
         {
@@ -60,27 +72,37 @@
         }
     }
 }
-.side_nav {
-    width: 200px;
-    padding: 40px 30px;
+.side_nav
+{
+    position: fixed;
     top: 80px;
     bottom: 0;
-    position: fixed;
-    background: #fff;
-    border-right: 1px solid #ddd;
-    box-sizing: border-box;
+
     overflow: auto;
+
+    box-sizing: border-box;
+    width: 200px;
+    padding: 40px 30px;
+
+    border-right: 1px solid #ddd;
+    background: #fff;
 }
-.side_nav_title {
+.side_nav_title
+{
     font-size: 20px;
+
     margin: 0 0 30px 0;
     padding: 0 0 0 10px;
+
     border-left: 4px solid #e60012;
 }
-.side_nav_list {
-    li {
+.side_nav_list
+{
+    li
+    {
         font-size: 14px;
         line-height: 1;
+
         margin: 0 0 20px 0;
         a
         {
@@ -94,17 +116,22 @@
 .page_title
 {
     font-size: 20px;
-    border-left: 4px solid #e60012;
-    padding: 0 0 0 10px;
+
     margin: 0 0 20px;
+    padding: 0 0 0 10px;
+
+    border-left: 4px solid #e60012;
 }
 .page_sub_title
 {
     font-size: 18px;
-    border-left: 4px solid #e60012;
+
     padding: 0 0 0 10px;
+
+    border-left: 4px solid #e60012;
 }
-.container {
+.container
+{
     margin: 80px 0 0 200px;
 }
 .content
@@ -113,35 +140,44 @@
 }
 .table
 {
-    table-layout: fixed;
     width: 100%;
     margin: 0 0 50px;
+
+    table-layout: fixed;
     th,
     td
     {
         font-weight: normal;
+
         padding: 15px;
+
         border-bottom: 1px solid #ddd;
     }
     th
     {
-        width: 200px;
-        text-align: left;
         font-size: 16px;
         line-height: 1.5;
+
+        width: 200px;
         padding: 24px 10px 24px 15px;
+
+        text-align: left;
         vertical-align: top;
     }
-    &._no_space {
+    &._no_space
+    {
         margin: 0;
     }
-    &._relation {
+    &._relation
+    {
         th
         {
-            text-align: left;
             font-size: 16px;
             line-height: 1.5;
+
             padding: 20px 10px 10px 20px;
+
+            text-align: left;
             vertical-align: top;
         }
     }
@@ -168,65 +204,81 @@
 }
 .input_text
 {
-    border: 1px solid #ddd;
-    box-sizing: border-box;
-    width: 100%;
     font-size: 16px;
     line-height: 16px;
+
+    box-sizing: border-box;
+    width: 100%;
     height: 40px;
     padding: 0 10px;
+
+    border: 1px solid #ddd;
     border-radius: 5px;
 }
 .input_textarea
 {
-    border: 1px solid #ddd;
-    box-sizing: border-box;
-    width: 100%;
     font-size: 16px;
     line-height: 1.5;
+
+    box-sizing: border-box;
+    width: 100%;
     height: 200px;
     padding: 10px;
+
+    border: 1px solid #ddd;
     border-radius: 5px;
 }
 .input_select
 {
-    border: 1px solid #ddd;
-    box-sizing: border-box;
-    width: 100%;
     font-size: 16px;
     line-height: 16px;
-    padding: 10px;
+
+    box-sizing: border-box;
+    width: 100%;
     height: 40px;
+    padding: 10px;
+
     cursor: pointer;
+
+    border: 1px solid #ddd;
 }
 .button_1
 {
-    width: 200px;
-    margin: 0 auto;
-    background: #337ab7;
     font-size: 16px;
     font-weight: bold;
-    color: #fff;
+
     display: block;
+
+    width: 200px;
+    margin: 0 auto;
     padding: 10px 0;
+
     cursor: pointer;
+
+    color: #fff;
+    background: #337ab7;
 }
 .button_2
 {
-    width: 200px;
-    margin: 0 auto;
-    background: #c34d3f;
     font-size: 16px;
     font-weight: bold;
-    color: #fff;
+
     display: block;
+
+    width: 200px;
+    margin: 0 auto;
     padding: 10px 0;
+
     cursor: pointer;
+
+    color: #fff;
+    background: #c34d3f;
 }
 .bottom_form
 {
-    padding: 30px 0 0 0;
     display: block;
+
+    padding: 30px 0 0 0;
 }
 .upload
 {
@@ -234,32 +286,41 @@
 }
 .link_button
 {
-    width: 100px;
-    background: #337ab7;
     font-size: 16px;
     font-weight: bold;
+
+    width: 100px;
+
     text-align: center;
+
+    background: #337ab7;
     a
     {
         display: block;
+
         padding: 10px 0;
+
         color: #fff;
     }
-    &._space {
+    &._space
+    {
         margin: 0 0 20px 0;
     }
 }
 .text_hidden
 {
-    white-space: nowrap;
     overflow: hidden;
+
+    white-space: nowrap;
     text-overflow: ellipsis;
     a
     {
-        white-space: nowrap;
         overflow: hidden;
-        text-overflow: ellipsis;
+
         padding: 2px 0;
+
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 }
 .link_text
@@ -267,7 +328,8 @@
     a
     {
         display: block;
-        color: #459AB3;
+
+        color: #459ab3;
         &:hover
         {
             text-decoration: underline;
@@ -286,32 +348,41 @@
 .data_page_text
 {
     font-size: 14px;
+
     text-align: center;
 }
 .pager
 {
     overflow: hidden;
+
     padding: 20px 0;
+
     @include clearfix;
 }
 .pager_list
 {
     position: relative;
-    float: left;
     left: 50%;
-    &>li
+
+    float: left;
+    & > li
     {
-        position: relative;
-        float: left;
-        left: -50%;
-        margin: 0 5px;
         font-size: 14px;
+
+        position: relative;
+        left: -50%;
+
+        float: left;
+
+        margin: 0 5px;
         a,
         span
         {
-            padding: 10px 14px;
-            border: 1px solid #ddd;
             display: block;
+
+            padding: 10px 14px;
+
+            border: 1px solid #ddd;
         }
 
         &.current
@@ -328,52 +399,81 @@
 }
 .loading
 {
-    display: none;
-    background: url(/assets/img/loader.gif) no-repeat center center rgba(255, 255, 255, 0.8);
-    background-size: 64px 64px;
     position: fixed;
+    z-index: 99999;
     top: 0;
     left: 0;
+
+    display: none;
+
     width: 100%;
     height: 100%;
-    z-index: 99999;
+
+    background: url(/assets/img/loader.gif) no-repeat center center rgba(255, 255, 255, .8);
+    background-size: 64px 64px;
 }
 .list
 {
     padding: 0 0 0 20px;
     li
     {
-        list-style: disc;
-        margin: 0 0 10px 0;
         font-size: 14px;
         line-height: 1.5;
+
+        margin: 0 0 10px 0;
+
+        list-style: disc;
         &:last-child
         {
             margin: 0;
         }
     }
 }
-.text_list {
-    padding: 10px;
+.text_list
+{
     overflow: auto;
+
+    padding: 10px;
+    &._category
+    {
+        padding: 10px 10px 10px 20px;
+    }
+    &._select_category
+    {
+        font-weight: bold;
+    }
     li
     {
-        margin: 0 0 15px 0;
         font-size: 16px;
         line-height: 16px;
+
+        margin: 0 0 15px 0;
         &:last-child
         {
             margin: 0;
         }
-        input[type="checkbox"] {
+        input[type='checkbox']
+        {
             vertical-align: top;
         }
+        &._group
+        {
+            font-weight: bold;
+
+            text-indent: -20px;
+        }
     }
-    &_child {
-        li {
-            margin: 0 0 10px 0;
+    &_child
+    {
+        font-weight: normal;
+
+        padding: 0 0 0 20px;
+        li
+        {
             font-size: 16px;
             line-height: 16px;
+
+            margin: 0 0 10px 0;
             &:first-child
             {
                 padding: 10px 0 0 0;
@@ -388,18 +488,20 @@
 
 .login_container
 {
-    padding: 40px 0 0 0;
     width: 800px;
     margin: 0 auto;
+    padding: 40px 0 0 0;
 }
 .header_status
 {
-    display: none;
-    padding: 10px 0;
     position: fixed;
     top: 0;
     left: 0;
+
+    display: none;
+
     width: 100%;
+    padding: 10px 0;
 
     &._show
     {
@@ -415,34 +517,45 @@
     }
     &_text
     {
-        color: #fff;
         font-size: 14px;
-        text-align: center;
         line-height: 1;
+
+        text-align: center;
+
+        color: #fff;
     }
 }
-.error_text {
-    color: #d9534f;
+.error_text
+{
     font-size: 14px;
     line-height: 1.5;
+
     margin: 0 0 15px;
+
+    color: #d9534f;
 }
 .post_search,
-.relation_search {
+.relation_search
+{
     position: relative;
-    padding: 0 90px 0 0;
+
     margin: 0 0 10px 0;
+    padding: 0 90px 0 0;
 
     .post_search_button,
-    .search_button {
-        width: 80px;
-        height: 40px;
+    .search_button
+    {
+        font-size: 14px;
+
         position: absolute;
         top: 0;
         right: 0;
-        background: #e60012;
+
+        width: 80px;
+        height: 40px;
+
         color: #fff;
-        font-size: 14px;
         border-radius: 5px;
+        background: #e60012;
     }
 }

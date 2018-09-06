@@ -12,6 +12,7 @@
 
 scssFromPath = resources/scss/
 scssToPath   = assets/css/
+scssCombPath = resources/scss/
 
 all: sass
 
@@ -32,6 +33,9 @@ radis:
 
 sass:
 	sass --sourcemap=none --no-cache --watch $(scssFromPath):$(scssToPath) --style compressed
+
+csscomb:
+	csscomb ${scssCombPath}
 
 pep8: ## pep8フォーマットに変換
 	@pep8 . | cut -d: -f 1 | sort | uniq | xargs autopep8 -i

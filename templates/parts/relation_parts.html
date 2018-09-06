@@ -110,10 +110,10 @@
     </tr>
     <tr>
         <td valign="top">
-            <ul class="text_list" id="categories_list"></ul>
+            <ul class="text_list _category" id="categories_list"></ul>
         </td>
         <td valign="top">
-            <ul class="text_list">
+            <ul class="text_list _select_category">
                 {%- for group in groups %}
                 <li>{{ group.name }}<ul class="text_list_child" id="group_{{ group.id }}">
                     {%- if categories %}

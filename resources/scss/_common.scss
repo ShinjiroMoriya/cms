@@ -1,15 +1,15 @@
 body
 {
+    font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', 'sans-serif';
+    font-size: 16px;
+    line-height: 1;
+
     min-width: 1000px;
 
     color: #222;
 
-    font-size: 16px;
-    font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', 'sans-serif';
-    line-height: 1;
-
     -webkit-text-size-adjust: 100%;
-    text-size-adjust: 100%;
+            text-size-adjust: 100%;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -69,7 +69,6 @@ th,
 td
 {
     border-spacing: 0;
-
     border-collapse: collapse;
 }
 a
@@ -78,26 +77,38 @@ a
 
     color: inherit;
 }
-input[type=submit] {
+input[type=submit]
+{
     cursor: pointer;
 }
-input:-webkit-autofill {
+input:-webkit-autofill
+{
     -webkit-box-shadow: 0 0 0 1000px #fff inset;
 }
 
-input, button, textarea, select {
+input,
+button,
+textarea,
+select
+{
     margin: 0;
     padding: 0;
-    background: none;
+
     border: none;
     border-radius: 0;
     outline: none;
+    background: none;
 }
-input[type="checkbox"] {
+input[type='checkbox']
+{
     font-size: 20px;
+
     margin: 0 5px 0 0;
+
     cursor: pointer;
+    vertical-align: top;
 }
-label {
+label
+{
     cursor: pointer;
 }
