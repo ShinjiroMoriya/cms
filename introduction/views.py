@@ -67,19 +67,29 @@ class IntroductionView(View):
 class AdminIntroductionsView(View):
     @staticmethod
     def get(request, lang, paged=1):
+
+        search = request.GET.get('search', '')
+
         if lang == 'ja':
             introduction_model = Introduction()
         else:
             introduction_model = IntroductionEn()
 
-        total = introduction_model.get_all().count()
+        if search != '':
+            total = introduction_model.get_search_all(search).count()
+        else:
+            total = introduction_model.get_all().count()
 
         pagination = Pagination(
-            page=paged, per_page=10, total=total,
+            page=paged, per_page=10, total=total, query=search,
             slug='/{}/admin/introductions/page/'.format(lang))
 
-        introductions = introduction_model.get_all()[
-            pagination.offset:pagination.offset + pagination.per_page]
+        if search != '':
+            introductions = introduction_model.get_search_all(search)[
+                pagination.offset:pagination.offset + pagination.per_page]
+        else:
+            introductions = introduction_model.get_all()[
+                pagination.offset:pagination.offset + pagination.per_page]
 
         return TemplateResponse(request, 'introductions.html', {
             'title': 'イントロダクション | FEED App 管理',
@@ -87,6 +97,7 @@ class AdminIntroductionsView(View):
             'information': pagination.information(),
             'pagination': pagination,
             'lang': lang,
+            'search': search,
         })
 
 
@@ -349,19 +360,28 @@ class AdminTitlesView(View):
     @staticmethod
     def get(request, lang, paged=1):
 
+        search = request.GET.get('search', '')
+
         if lang == 'ja':
             title_model = Title()
         else:
             title_model = TitleEn()
 
-        total = title_model.get_all().count()
+        if search != '':
+            total = title_model.get_search_all(search).count()
+        else:
+            total = title_model.get_all().count()
 
         pagination = Pagination(
-            page=paged, per_page=10, total=total,
+            page=paged, per_page=10, total=total, query=search,
             slug='/{}/admin/titles/page/'.format(lang))
 
-        titles = title_model.get_all()[
-                 pagination.offset:pagination.offset + pagination.per_page]
+        if search != '':
+            titles = title_model.get_search_all(search)[
+                     pagination.offset:pagination.offset + pagination.per_page]
+        else:
+            titles = title_model.get_all()[
+                     pagination.offset:pagination.offset + pagination.per_page]
 
         return TemplateResponse(request, 'titles.html', {
             'title': 'タイトル | FEED App 管理',
@@ -369,6 +389,7 @@ class AdminTitlesView(View):
             'information': pagination.information(),
             'pagination': pagination,
             'lang': lang,
+            'search': search,
         })
 
 

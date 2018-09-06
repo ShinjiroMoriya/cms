@@ -7,6 +7,12 @@
         <p class="link_button _space">
             <a href="/{{ lang }}/admin/topics/create" class="a_link">新規投稿</a>
         </p>
+        <form action="/{{ lang }}/admin/topics" method="GET">
+            <div class="post_search">
+                <input type="text" name="search" class="input_search input_text" placeholder="検索キーワード" value="{{ search }}">
+                <input type="submit" class="post_search_button" value="検索">
+            </div>
+        </form>
         <table class="table">
             <tr>
                 <td class="table_title">タイトル</td>

@@ -74,14 +74,20 @@ class Pagination:
     :ページャー
     """
     def __init__(self, page: int, per_page: int, total: int, slug: str,
-                 query_order=''):
+                 query=''):
         self.page = int(page)
         self.slug = slug
         self.per_page = per_page
         self.total = total
         self.pages = int(ceil(self.total / float(self.per_page)))
         self.offset = (int(page) - 1) * int(per_page)
-        self.query_order = query_order
+        self.query = query
+
+    def get_query(self):
+        if self.query:
+            return '?search=' + self.query
+        else:
+            return ''
 
     def numbers(self, number: int=5, current: int=1):
         total_page = ceil(self.total / self.per_page)

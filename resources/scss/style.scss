@@ -417,11 +417,13 @@
     line-height: 1.5;
     margin: 0 0 15px;
 }
+.post_search,
 .relation_search {
     position: relative;
     padding: 0 90px 0 0;
     margin: 0 0 10px 0;
 
+    .post_search_button,
     .search_button {
         width: 80px;
         height: 40px;

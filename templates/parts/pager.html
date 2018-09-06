@@ -7,7 +7,7 @@
             {% if number == data.pagination.page %}
             <li class="current"><span>{{ number }}</span></li>
             {% else %}
-            <li><a href="{{ data.pagination.slug }}{{ number }}">{{ number }}</a></li>
+            <li><a href="{{ data.pagination.slug }}{{ number }}{{ data.pagination.get_query() }}">{{ number }}</a></li>
             {% endif %}
             {% endfor %}
         </ul>

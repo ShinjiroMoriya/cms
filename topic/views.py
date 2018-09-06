@@ -19,7 +19,7 @@ from extra.forms import (
 )
 
 
-class TopicView(View):
+class APITopicView(View):
     @staticmethod
     def get(_, lang, topic_id):
         if lang == 'ja':
@@ -57,7 +57,7 @@ class TopicView(View):
         return JsonResponse(res, safe=False)
 
 
-class TopicsView(View):
+class APITopicsView(View):
     @staticmethod
     def get(_, lang):
         if lang == 'ja':
@@ -90,19 +90,28 @@ class AdminTopicsView(View):
     @staticmethod
     def get(request, lang, paged=1):
 
+        search = request.GET.get('search', '')
+
         if lang == 'ja':
             topic_model = Topic()
         else:
             topic_model = TopicEn()
 
-        total = topic_model.get_all().count()
+        if search != '':
+            total = topic_model.get_search_all(search).count()
+        else:
+            total = topic_model.get_all().count()
 
         pagination = Pagination(
-            page=paged, per_page=10, total=total,
+            page=paged, per_page=10, total=total, query=search,
             slug='/{}/admin/topics/page/'.format(lang))
 
-        topics = topic_model.get_all()[
-            pagination.offset:pagination.offset + pagination.per_page]
+        if search != '':
+            topics = topic_model.get_search_all(search)[
+                pagination.offset:pagination.offset + pagination.per_page]
+        else:
+            topics = topic_model.get_all()[
+                pagination.offset:pagination.offset + pagination.per_page]
 
         return TemplateResponse(request, 'topics.html', {
             'title': 'トピックス | FEED App 管理',
@@ -110,6 +119,7 @@ class AdminTopicsView(View):
             'information': pagination.information(),
             'pagination': pagination,
             'lang': lang,
+            'search': search,
         })
 
 

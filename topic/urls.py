@@ -4,10 +4,10 @@ from topic.views import *
 
 urlpatterns = [
     path('<lang>/topics',
-         TopicsView.as_view()),
+         APITopicsView.as_view()),
 
     path('<lang>/topics/<int:topic_id>',
-         TopicView.as_view()),
+         APITopicView.as_view()),
 
     path('<lang:lang>/admin/topics',
          AdminTopicsView.as_view()),

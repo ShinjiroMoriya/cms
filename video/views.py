@@ -131,19 +131,28 @@ class AdminVideosView(View):
     @staticmethod
     def get(request, lang, paged=1):
 
+        search = request.GET.get('search', '')
+
         if lang == 'ja':
             video_model = Video()
         else:
             video_model = VideoEn()
 
-        total = video_model.get_all().count()
+        if search != '':
+            total = video_model.get_search_all(search, None).count()
+        else:
+            total = video_model.get_all().count()
 
         pagination = Pagination(
-            page=paged, per_page=10, total=total,
+            page=paged, per_page=10, total=total, query=search,
             slug='/{}/admin/videos/page/'.format(lang))
 
-        videos = video_model.get_all()[
-                 pagination.offset:pagination.offset + pagination.per_page]
+        if search != '':
+            videos = video_model.get_search_all(search, None)[
+                     pagination.offset:pagination.offset + pagination.per_page]
+        else:
+            videos = video_model.get_all()[
+                     pagination.offset:pagination.offset + pagination.per_page]
 
         return TemplateResponse(request, 'videos.html', {
             'title': '動画 | FEED App 管理',
@@ -151,6 +160,7 @@ class AdminVideosView(View):
             'information': pagination.information(),
             'pagination': pagination,
             'lang': lang,
+            'search': search,
         })
 
 
