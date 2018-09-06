@@ -3,14 +3,22 @@
 
 .header
 {
-    background: #18367d;
-    padding: 10px;
+    background: #e60012;
+    padding: 30px;
+    height: 80px;
+    top: 0;
+    left : 0;
     @include clearfix;
+    position: fixed;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 10;
 }
 .header_title
 {
     color: #fff;
-    font-size: 12px;
+    font-size: 16px;
+    font-weight: bold;
     float: left;
     margin: 0 20px 0 0;
 }
@@ -52,12 +60,51 @@
         }
     }
 }
+.side_nav {
+    width: 200px;
+    padding: 30px;
+    top: 80px;
+    bottom: 0;
+    position: fixed;
+    background: #fff;
+    border-right: 1px solid #ddd;
+    box-sizing: border-box;
+}
+.side_nav_title {
+    font-size: 18px;
+    margin: 0 0 30px 0;
+    padding: 0 0 0 10px;
+    border-left: 4px solid #e60012;
+}
+.side_nav_list {
+    li {
+        font-size: 12px;
+        line-height: 1;
+        margin: 0 0 20px 0;
+        a
+        {
+            &:hover
+            {
+                text-decoration: underline;
+            }
+        }
+    }
+}
 .page_title
 {
-    font-size: 18px;
-    border-left: 4px solid #18367d;
+    font-size: 22px;
+    border-left: 4px solid #e60012;
     padding: 0 0 0 10px;
     margin: 0 0 20px;
+}
+.page_sub_title
+{
+    font-size: 18px;
+    border-left: 4px solid #e60012;
+    padding: 0 0 0 10px;
+}
+.container {
+    margin: 80px 0 0 200px;
 }
 .content
 {
@@ -67,19 +114,25 @@
 {
     table-layout: fixed;
     width: 100%;
-    margin: 0 0 30px;
+    margin: 0 0 50px;
     th,
     td
     {
         font-weight: normal;
         padding: 15px;
-        border: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
     }
     th
     {
         width: 200px;
+        text-align: left;
         font-size: 16px;
         line-height: 1.5;
+        padding: 24px 10px 10px 15px;
+        vertical-align: top;
+    }
+    &._no_space {
+        margin: 0;
     }
 }
 .table_date
@@ -111,6 +164,7 @@
     line-height: 16px;
     height: 40px;
     padding: 0 10px;
+    border-radius: 5px;
 }
 .input_textarea
 {
@@ -121,15 +175,18 @@
     line-height: 1.5;
     height: 200px;
     padding: 10px;
+    border-radius: 5px;
 }
 .input_select
 {
     border: 1px solid #ddd;
     box-sizing: border-box;
     width: 100%;
-    font-size: 14px;
-    padding: 0 10px;
-    height: 30px;
+    font-size: 16px;
+    line-height: 16px;
+    padding: 10px;
+    height: 40px;
+    cursor: pointer;
 }
 .button_1
 {
@@ -208,7 +265,7 @@
 }
 .a_link
 {
-    color: #459AB3;
+    color: #007bff;
     &:hover
     {
         text-decoration: underline;
@@ -249,12 +306,12 @@
         &.current
         {
             color: #fff;
-            background: #18367d;
+            background: #e60012;
         }
         &:hover
         {
             color: #fff;
-            background: #18367d;
+            background: #e60012;
         }
     }
 }
@@ -286,16 +343,19 @@
     }
 }
 .text_list {
-    height: 200px;
+    padding: 10px;
     overflow: auto;
     li
     {
-        margin: 0 0 10px 0;
+        margin: 0 0 15px 0;
         font-size: 16px;
-        line-height: 1.5;
+        line-height: 16px;
         &:last-child
         {
             margin: 0;
+        }
+        input[type="checkbox"] {
+            vertical-align: top;
         }
     }
     &_child {
@@ -355,4 +415,21 @@
     font-size: 14px;
     line-height: 1.5;
     margin: 0 0 15px;
+}
+.relation_search {
+    position: relative;
+    padding: 0 90px 0 0;
+    margin: 0 0 10px 0;
+
+    .search_button {
+        width: 80px;
+        height: 40px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: #e60012;
+        color: #fff;
+        font-size: 14px;
+        border-radius: 5px;
+    }
 }

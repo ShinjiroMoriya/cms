@@ -13,22 +13,25 @@
 <body>
     <header class="header">
         <h1 class="header_title">FEED App 管理 / {% if lang == 'ja' %}日本語{% else %}英語{% endif %}</h1>
-        <ul class="header_menu">
-            <li><a href="/{{ lang }}/admin">トップ</a></li>
-            <li><a href="/{{ lang }}/admin/introductions">イントロダクション</a></li>
-            <li><a href="/{{ lang }}/admin/titles">タイトル</a></li>
-            <li><a href="/{{ lang }}/admin/videos">動画</a></li>
-            <li><a href="/{{ lang }}/admin/topics">トピック</a></li>
-            <li><a href="/{{ lang }}/admin/images">画像</a></li>
-            <li><a href="/{{ lang }}/admin/groups">グループ</a></li>
-            <li><a href="/{{ lang }}/admin/categories">カテゴリー</a></li>
-        </ul>
         <ul class="header_menu_right">
             <li><a href="/ja/admin">日本語</a></li>
             <li>/</li>
             <li><a href="/en/admin">英語</a></li>
         </ul>
 	</header>
+    <aside class="side_nav">
+        <p class="side_nav_title">Menu</p>
+        <ul class="side_nav_list">
+            <li><a href="/{{ lang }}/admin">トップ</a></li>
+            <li><a href="/{{ lang }}/admin/introductions" {% if request.path.split('/')[3] == 'introductions' %}class="a_link"{% endif %}>イントロダクション</a></li>
+            <li><a href="/{{ lang }}/admin/titles" {% if request.path.split('/')[3] == 'titles' %}class="a_link"{% endif %}>タイトル</a></li>
+            <li><a href="/{{ lang }}/admin/videos" {% if request.path.split('/')[3] == 'videos' %}class="a_link"{% endif %}>動画</a></li>
+            <li><a href="/{{ lang }}/admin/topics" {% if request.path.split('/')[3] == 'topics' %}class="a_link"{% endif %}>トピック</a></li>
+            <li><a href="/{{ lang }}/admin/images" {% if request.path.split('/')[3] == 'images' %}class="a_link"{% endif %}>画像</a></li>
+            <li><a href="/{{ lang }}/admin/groups" {% if request.path.split('/')[3] == 'groups' %}class="a_link"{% endif %}>グループ</a></li>
+            <li><a href="/{{ lang }}/admin/categories" {% if request.path.split('/')[3] == 'categories' %}class="a_link"{% endif %}>カテゴリー</a></li>
+        </ul>
+    </aside>
     {% from "parts/pager.html" import pager with context %}
     {% block body %}{% endblock %}
     <script src="/assets/js/jquery.js"></script>

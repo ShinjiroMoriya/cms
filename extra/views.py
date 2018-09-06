@@ -214,19 +214,28 @@ class AdminImageAddView(View):
 
 class AdminTitlesAPIView(View):
     @staticmethod
-    def get(_, lang, paged=1):
+    def get(request, lang, paged=1):
         try:
+            value = request.GET.get('value')
+
             if lang == 'ja':
                 title_model = Title()
             else:
                 title_model = TitleEn()
 
-            total = title_model.get_all().count()
+            if value != '':
+                total = title_model.get_search_all(value).count()
+            else:
+                total = title_model.get_all().count()
 
             pagination = Pagination(
                 page=paged, per_page=10, total=total, slug='')
 
-            titles = title_model.get_all()[
+            if value != '':
+                titles = title_model.get_search_all(value)[
+                     pagination.offset:pagination.offset + pagination.per_page]
+            else:
+                titles = title_model.get_all()[
                      pagination.offset:pagination.offset + pagination.per_page]
 
             if lang == 'ja':
@@ -251,7 +260,7 @@ class AdminVideosAPIView(View):
     @staticmethod
     def get(request, lang, paged=1):
         try:
-
+            value = request.GET.get('value')
             post_id = request.GET.get('post_id')
 
             if lang == 'ja':
@@ -259,13 +268,20 @@ class AdminVideosAPIView(View):
             else:
                 video_model = VideoEn()
 
-            total = video_model.get_exclude_all(post_id).count()
+            if value != '':
+                total = video_model.get_search_all(value, post_id).count()
+            else:
+                total = video_model.get_exclude_all(post_id).count()
 
             pagination = Pagination(
                 page=paged, per_page=10, total=total, slug='')
 
-            videos = video_model.get_exclude_all(post_id)[
-                pagination.offset:pagination.offset + pagination.per_page]
+            if value != '':
+                videos = video_model.get_search_all(value, post_id)[
+                    pagination.offset:pagination.offset + pagination.per_page]
+            else:
+                videos = video_model.get_exclude_all(post_id)[
+                    pagination.offset:pagination.offset + pagination.per_page]
 
             if lang == 'ja':
                 res = VideosSerializer(videos, many=True).data
@@ -287,20 +303,29 @@ class AdminVideosAPIView(View):
 
 class AdminIntroductionsAPIView(View):
     @staticmethod
-    def get(_, lang, paged=1):
+    def get(request, lang, paged=1):
         try:
+            value = request.GET.get('value')
+
             if lang == 'ja':
                 introduction_model = Introduction()
             else:
                 introduction_model = IntroductionEn()
 
-            total = introduction_model.get_all().count()
+            if value != '':
+                total = introduction_model.get_search_all(value).count()
+            else:
+                total = introduction_model.get_all().count()
 
             pagination = Pagination(
                 page=paged, per_page=10, total=total, slug='')
 
-            introductions = introduction_model.get_all()[
-                pagination.offset:pagination.offset + pagination.per_page]
+            if value != '':
+                introductions = introduction_model.get_search_all(value)[
+                    pagination.offset:pagination.offset + pagination.per_page]
+            else:
+                introductions = introduction_model.get_all()[
+                    pagination.offset:pagination.offset + pagination.per_page]
 
             if lang == 'ja':
                 res = IntroductionsSerializer(introductions, many=True).data
@@ -322,19 +347,29 @@ class AdminIntroductionsAPIView(View):
 
 class AdminTopicsAPIView(View):
     @staticmethod
-    def get(_, lang, paged=1):
+    def get(request, lang, paged=1):
         try:
+
+            value = request.GET.get('value')
+
             if lang == 'ja':
                 topic_model = Topic()
             else:
                 topic_model = TopicEn()
 
-            total = topic_model.get_all().count()
+            if value != '':
+                total = topic_model.get_search_all(value).count()
+            else:
+                total = topic_model.get_all().count()
 
             pagination = Pagination(
                 page=paged, per_page=10, total=total, slug='')
 
-            topics = topic_model.get_all()[
+            if value != '':
+                topics = topic_model.get_search_all(value)[
+                     pagination.offset:pagination.offset + pagination.per_page]
+            else:
+                topics = topic_model.get_all()[
                      pagination.offset:pagination.offset + pagination.per_page]
 
             if lang == 'ja':

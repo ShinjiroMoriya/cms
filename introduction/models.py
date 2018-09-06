@@ -14,6 +14,10 @@ class TitleBase(models.Model):
         return cls.objects.all()
 
     @classmethod
+    def get_search_all(cls, value):
+        return cls.objects.filter(title__contains=value)
+
+    @classmethod
     def get_by_id(cls, title_id):
         return cls.objects.filter(id=title_id).first()
 
@@ -73,6 +77,10 @@ class IntroductionBase(models.Model):
             status=1, published_at__lt=datetime.now())
 
     @classmethod
+    def get_search_all(cls, value):
+        return cls.objects.filter(name__contains=value)
+
+    @classmethod
     def get_by_id(cls, introduction_id):
         return cls.objects.filter(id=introduction_id).first()
 
@@ -103,7 +111,7 @@ class IntroductionBase(models.Model):
 
     @classmethod
     def remove_introduction_from_title(cls, title_id):
-        all_introduction_ids = [str(v.id) for v in cls.get_all()]
+        all_introduction_ids = [v.id for v in cls.get_all()]
         try:
             for v in all_introduction_ids:
                 introduction = cls.objects.get(id=v)
@@ -114,7 +122,8 @@ class IntroductionBase(models.Model):
 
     @classmethod
     def add_introduction(cls, video_id, introduction_ids):
-        all_introduction_ids = [str(v.id) for v in Introduction.get_all()]
+        introduction_ids = list(map(int, introduction_ids))
+        all_introduction_ids = [v.id for v in Introduction.get_all()]
         try:
             video = cls.objects.get(id=video_id)
             for v in all_introduction_ids:
@@ -131,7 +140,8 @@ class IntroductionBase(models.Model):
 
     @classmethod
     def add_title(cls, introduction_id, title_ids):
-        all_title_ids = [str(v.id) for v in Title.get_all()]
+        title_ids = list(map(int, title_ids))
+        all_title_ids = [v.id for v in Title.get_all()]
         try:
             introduction = cls.objects.get(id=introduction_id)
             for v in all_title_ids:
@@ -148,7 +158,7 @@ class IntroductionBase(models.Model):
 
     @classmethod
     def remove_title(cls, introduction_id):
-        all_title_ids = [str(v.id) for v in Title.get_all()]
+        all_title_ids = [v.id for v in Title.get_all()]
         try:
             introduction = cls.objects.get(id=introduction_id)
             for v in all_title_ids:

@@ -31,6 +31,13 @@ class VideoBase(models.Model):
         return cls.objects.all()
 
     @classmethod
+    def get_search_all(cls, value, video_id):
+        if video_id:
+            return cls.objects.filter(title__in=value).exclude(id=video_id)
+        else:
+            return cls.objects.filter(title__contains=value)
+
+    @classmethod
     def get_exclude_all(cls, video_id):
         if video_id:
             return cls.objects.exclude(id=video_id)
@@ -123,7 +130,7 @@ class VideoBase(models.Model):
 
     @classmethod
     def remove_video_from_introduction(cls, introduction_id):
-        all_video_ids = [str(v.id) for v in cls.get_all()]
+        all_video_ids = [v.id for v in cls.get_all()]
         try:
             for v in all_video_ids:
                 video = cls.objects.get(id=v)
@@ -152,7 +159,7 @@ class VideoBase(models.Model):
 
     @classmethod
     def remove_video_from_video(cls, video_id):
-        all_video_ids = [str(v.id) for v in cls.get_all()]
+        all_video_ids = [v.id for v in cls.get_all()]
         try:
             for v in all_video_ids:
                 video = cls.objects.get(id=v)
@@ -163,7 +170,7 @@ class VideoBase(models.Model):
 
     @classmethod
     def add_video_from_topic(cls, topic_id, video_ids):
-        all_video_ids = [str(v.id) for v in cls.get_all()]
+        all_video_ids = [v.id for v in cls.get_all()]
         try:
             for v in all_video_ids:
                 video = cls.objects.get(id=v)
@@ -180,7 +187,7 @@ class VideoBase(models.Model):
 
     @classmethod
     def remove_video_from_topic(cls, topic_id):
-        all_video_ids = [str(v.id) for v in cls.get_all()]
+        all_video_ids = [v.id for v in cls.get_all()]
         try:
             for v in all_video_ids:
                 video = cls.objects.get(id=v)

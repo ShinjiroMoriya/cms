@@ -1,12 +1,19 @@
 {%- macro videos(videos, lang, video_id='') %}
+<p class="page_sub_title">関連動画</p>
 <table class="table">
     <tr>
-        <th>動画一覧</th>
+        <th>一覧</th>
         <th>選択一覧</th>
     </tr>
     <tr>
-        <td><ul class="text_list" id="videos_list" data-lang="{{ lang }}" data-video_id="{{ video_id }}"></ul></td>
-        <td>
+        <td valign="top">
+            <div class="relation_search">
+                <input type="text" class="videos_search input_search input_text" placeholder="入力してください">
+                <input type="button" class="videos_search_button search_button" value="検索">
+            </div>
+            <ul class="text_list" id="videos_list" data-lang="{{ lang }}" data-video_id="{{ video_id }}"></ul>
+        </td>
+        <td valign="top">
             <ul class="text_list add_list">
                 {%- for video in videos %}
                 <li><input type="checkbox" name="videos" checked value="{{ video.id }}" id="videos_{{ video.id }}"><label for="videos_{{ video.id }}">{{ video.title }}</label></li>
@@ -18,14 +25,21 @@
 {%- endmacro %}
 
 {%- macro titles(titles, lang) %}
+<p class="page_sub_title">タイトル</p>
 <table class="table">
     <tr>
-        <th>タイトル一覧</th>
+        <th>一覧</th>
         <th>選択一覧</th>
     </tr>
     <tr>
-        <td><ul class="text_list" id="titles_list" data-lang="{{ lang }}"></ul></td>
-        <td>
+        <td valign="top">
+            <div class="relation_search">
+                <input type="text" class="titles_search input_search input_text" placeholder="入力してください">
+                <input type="button" class="titles_search_button search_button" value="検索">
+            </div>
+            <ul class="text_list" id="titles_list" data-lang="{{ lang }}"></ul>
+        </td>
+        <td valign="top">
             <ul class="text_list">
                 {%- for title in titles %}
                 <li><input type="checkbox" name="titles" checked value="{{ title.id }}" id="titles_{{ title.id }}"><label for="titles_{{ title.id }}">{{ title.title }}</label></li>
@@ -37,14 +51,21 @@
 {%- endmacro %}
 
 {%- macro topics(topics, lang) %}
+<p class="page_sub_title">関連トピック</p>
 <table class="table">
     <tr>
-        <th>トピックス一覧</th>
+        <th>一覧</th>
         <th>選択一覧</th>
     </tr>
     <tr>
-        <td><ul class="text_list" id="topics_list" data-lang="{{ lang }}"></ul></td>
-        <td>
+        <td valign="top">
+            <div class="relation_search">
+                <input type="text" class="topics_search input_search input_text" placeholder="入力してください">
+                <input type="button" class="topics_search_button search_button" value="検索">
+            </div>
+            <ul class="text_list" id="topics_list" data-lang="{{ lang }}"></ul>
+        </td>
+        <td valign="top">
             <ul class="text_list add_list">
                 {%- for topic in topics %}
                 <li><input type="checkbox" name="topics" checked value="{{ topic.id }}" id="topics_{{ topic.id }}"><label for="topics_{{ topic.id }}">{{ topic.title }}</label></li>
@@ -56,14 +77,21 @@
 {%- endmacro %}
 
 {%- macro introductions(introductions, lang) %}
+<p class="page_sub_title">関連イントロダクション</p>
 <table class="table">
     <tr>
-        <th>イントロダクション一覧</th>
+        <th>一覧</th>
         <th>選択一覧</th>
     </tr>
     <tr>
-        <td><ul class="text_list" id="introductions_list" data-lang="{{ lang }}"></ul></td>
-        <td>
+        <td valign="top">
+            <div class="relation_search">
+                <input type="text" class="introductions_search input_search input_text" placeholder="入力してください">
+                <input type="button" class="introductions_search_button search_button" value="検索">
+            </div>
+            <ul class="text_list" id="introductions_list" data-lang="{{ lang }}"></ul>
+        </td>
+        <td valign="top">
             <ul class="text_list">
                 {%- for introduction in introductions %}
                 <li><input type="checkbox" name="introductions" checked value="{{ introduction.id }}" id="introductions_{{ introduction.id }}"><label for="introductions_{{ introduction.id }}">{{ introduction.name }}</label></li>
@@ -81,10 +109,10 @@
         <th>選択一覧</th>
     </tr>
     <tr>
-        <td>
+        <td valign="top">
             <ul class="text_list" id="categories_list"></ul>
         </td>
-        <td>
+        <td valign="top">
             <ul class="text_list">
                 {%- for group in groups %}
                 <li>{{ group.name }}<ul class="text_list_child" id="group_{{ group.id }}">

@@ -30,6 +30,10 @@ class TopicBase(models.Model):
         return cls.objects.filter(status=1, published_at__lt=datetime.now())
 
     @classmethod
+    def get_search_all(cls, value):
+        return cls.objects.filter(title__contains=value)
+
+    @classmethod
     def get_by_id(cls, topic_id):
         return cls.objects.filter(id=topic_id).first()
 

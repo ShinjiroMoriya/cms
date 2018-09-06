@@ -163,7 +163,7 @@ $('#input_image_list_add_button').on('click', function() {
 
     }).done(function(data) {
         $.each(data.images, function(i, image) {
-            $('#image_list').append('<li><a href="' + image.image_url + '" data-lity class="a_link">' + limit_text(image.title) + '</a> <a href="javascript:;" class="choice_image"' + 'data-image_url="' + image.image_url + '">選択する</a></li>');
+            $('#image_list').append('<li><a href="' + image.image_url + '" data-lity class="a_link">' + limit_text(image.title) + '</a> <a href="javascript:;" class="a_link choice_image"' + 'data-image_url="' + image.image_url + '">選択</a></li>');
         });
 
         if (data.total !== 1 && data.total != data.paged && data.total !== 0) {
@@ -205,7 +205,7 @@ $(document).on('click', '.image_more_link', function() {
 
     }).done(function(data) {
         $.each(data.images, function(i, image) {
-            $('#image_list').append('<li><a href="' + image.image_url + '" data-lity class="a_link">' + limit_text(image.title) + '</a> <a href="javascript:;" class="choice_image"' + 'data-image_url="' + image.image_url + '">選択</a></li>');
+            $('#image_list').append('<li><a href="' + image.image_url + '" data-lity class="a_link">' + limit_text(image.title) + '</a> <a href="javascript:;" class="a_link choice_image"' + 'data-image_url="' + image.image_url + '">選択</a></li>');
         });
 
         if (data.total !== 1 && data.total != data.paged && data.total !== 0) {
@@ -267,11 +267,12 @@ $('.image_delete_check').on('click', function(e) {
     });
 });
 
-function get_titles(paged, lang) {
+function get_titles(paged, lang, value) {
     $.ajax({
         type: 'GET',
         url: '/' + lang + '/api/titles/' + paged,
-        cache: false
+        cache: false,
+        data: {'value': value}
 
     }).done(function(data) {
 
@@ -302,23 +303,41 @@ function get_titles(paged, lang) {
 
 if ($('#titles_list').length != 0) {
     var lang = $('#titles_list').attr('data-lang');
-    get_titles(1, lang);
+    get_titles(1, lang, null);
 }
 
 $(document).on('click', '.title_more_link', function() {
     var lang = $('#titles_list').attr('data-lang');
     var paged = $(this).attr('data-paged');
     $(this).remove();
-    get_titles(paged, lang);
+    get_titles(paged, lang, null);
 });
 
+$('.titles_search').on('blur', function() {
+    if ($(this).val() === '') {
+        $('#titles_list').find('li').remove();
+        var lang = $('#titles_list').attr('data-lang');
+        var value = $('.titles_search').val();
+        get_titles(1, lang, value);
+    }
+});
 
-function get_videos(paged, lang, video_id) {
+$('.titles_search_button').on('click', function() {
+    $('#titles_list').find('li').remove();
+    var lang = $('#titles_list').attr('data-lang');
+    var value = $('.titles_search').val();
+    get_titles(1, lang, value);
+});
+
+function get_videos(paged, lang, video_id, value) {
     $.ajax({
         type: 'GET',
         url: '/' + lang + '/api/videos/' + paged,
         cache: false,
-        data: {'post_id': video_id}
+        data: {
+            'post_id': video_id,
+            'value': value
+        }
 
     }).done(function(data) {
 
@@ -350,23 +369,43 @@ function get_videos(paged, lang, video_id) {
 if ($('#videos_list').length != 0) {
     var lang = $('#videos_list').attr('data-lang');
     var video_id = $('#videos_list').attr('data-video_id');
-    get_videos(1, lang, video_id);
+    get_videos(1, lang, video_id, null);
 }
 
 $(document).on('click', '.video_more_link', function() {
     var lang = $('#videos_list').attr('data-lang');
     var video_id = $('#videos_list').attr('data-video_id');
     var paged = $(this).attr('data-paged');
+    var value = $('.videos_search').val();
     $(this).remove();
-    get_videos(paged, lang, video_id);
+    get_videos(paged, lang, video_id, value);
+});
+
+$('.videos_search').on('blur', function() {
+    if ($(this).val() === '') {
+        $('#videos_list').find('li').remove();
+        var lang = $('#videos_list').attr('data-lang');
+        var video_id = $('#videos_list').attr('data-video_id');
+        var value = $('.videos_search').val();
+        get_videos(1, lang, video_id, value);
+    }
+});
+
+$('.videos_search_button').on('click', function() {
+    $('#videos_list').find('li').remove();
+    var lang = $('#videos_list').attr('data-lang');
+    var video_id = $('#videos_list').attr('data-video_id');
+    var value = $('.videos_search').val();
+    get_videos(1, lang, video_id, value);
 });
 
 
-function get_introductions(paged, lang) {
+function get_introductions(paged, lang, value) {
     $.ajax({
         type: 'GET',
         url: '/' + lang + '/api/introductions/' + paged,
-        cache: false
+        cache: false,
+        data: {'value': value}
 
     }).done(function(data) {
 
@@ -397,22 +436,40 @@ function get_introductions(paged, lang) {
 
 if ($('#introductions_list').length != 0) {
     var lang = $('#introductions_list').attr('data-lang');
-    get_introductions(1, lang);
+    get_introductions(1, lang, null);
 }
 
 $(document).on('click', '.introduction_more_link', function() {
     var lang = $('#introductions_list').attr('data-lang');
     var paged = $(this).attr('data-paged');
+    var value = $('.introductions_search').val();
     $(this).remove();
-    get_introductions(paged, lang);
+    get_introductions(paged, lang, value);
+});
+
+$('.introductions_search').on('blur', function() {
+    if ($(this).val() === '') {
+        $('#introductions_list').find('li').remove();
+        var lang = $('#introductions_list').attr('data-lang');
+        var value = $('.introductions_search').val();
+        get_introductions(1, lang, value);
+    }
+});
+
+$('.introductions_search_button').on('click', function() {
+    $('#introductions_list').find('li').remove();
+    var lang = $('#introductions_list').attr('data-lang');
+    var value = $('.introductions_search').val();
+    get_introductions(1, lang, value);
 });
 
 
-function get_topics(paged, lang) {
+function get_topics(paged, lang, value) {
     $.ajax({
         type: 'GET',
         url: '/' + lang + '/api/topics/' + paged,
-        cache: false
+        cache: false,
+        data: {'value': value}
 
     }).done(function(data) {
 
@@ -443,15 +500,33 @@ function get_topics(paged, lang) {
 
 if ($('#topics_list').length != 0) {
     var lang = $('#topics_list').attr('data-lang');
-    get_topics(1, lang);
+    get_topics(1, lang, null);
 }
 
 $(document).on('click', '.topic_more_link', function() {
     var lang = $('#topics_list').attr('data-lang');
     var paged = $(this).attr('data-paged');
+    var value = $('.topics_search').val();
     $(this).remove();
-    get_topics(paged, lang);
+    get_topics(paged, lang, value);
 });
+
+$('.topics_search').on('blur', function() {
+    if ($(this).val() === '') {
+        $('#topics_list').find('li').remove();
+        var lang = $('#topics_list').attr('data-lang');
+        var value = $('.topics_search').val();
+        get_topics(1, lang, value);
+    }
+});
+
+$('.topics_search_button').on('click', function() {
+    $('#topics_list').find('li').remove();
+    var lang = $('#topics_list').attr('data-lang');
+    var value = $('.topics_search').val();
+    get_topics(1, lang, value);
+});
+
 
 function get_categories() {
     $.ajax({
@@ -501,4 +576,13 @@ $(document).on('click', '.choice_list', function() {
     }
 
     choice_block.append('<li><input type="checkbox" name="' + post_type + '" checked value="' + add_id + '" id="' + post_type + '_' + add_id + '"><label for="' + post_type + '_' + add_id + '">' + post_title + '</label></li>');
+});
+
+$('.input_search').keydown(function(e) {
+    if ((e.which && e.which === 13) || (e.keyCode && e.keyCode === 13)) {
+        $(this).next().click();
+        return false;
+    } else {
+        return true;
+    }
 });

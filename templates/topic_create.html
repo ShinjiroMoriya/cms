@@ -75,28 +75,29 @@
                         <input type="text" name="event_url" class="input_text" placeholder="入力してください" value="{% if form_data['event_url'] %}{{ form_data['event_url'] }}{% endif %}">
                     </td>
                 </tr>
-            </table>
-            <table class="table">
                 <tr>
                     <th>イメージ画像</th>
-                    <th>URL</th>
-                </tr>
-                <tr>
-                    <td style="text-align: center">
-                        <img id="image_url" src="{% if form_data['image_url'] %}{{ form_data['image_url']|thumbnail }}{% else %}https://placehold.jp/250x250.png{% endif %}" alt="">
-                    </td>
                     <td>
-                        <input type="text" style="margin: 0 0 20px 0" readonly name="image_url" id="input_image_add" class="input_text" placeholder="画像を選択してください" value="{% if form_data['image_url'] %}{{ form_data['image_url'] }}{% endif %}">
-                        <div style="margin: 0 0 20px 0">
-                            <input type="button" id="input_image_add_button" data-lang="{{ lang }}" value="ファイルから選択する" class="button_1">
-                        </div>
-                        <input type="button" id="input_image_list_add_button" data-lang="{{ lang }}" value="一覧から選択する" class="button_1">
-                        <div id="image_list_block" style="display: none; padding: 20px 0 0 0;">
-                            <table class="table" style="margin: 0">
-                                <tr><td class="table_image_title">ファイル名</td></tr>
-                                <tr><td><ul class="text_list" id="image_list"></ul></td></tr>
-                            </table>
-                        </div>
+                        <table class="table _no_space">
+                            <tr>
+                                <th style="border: none; padding: 0;" valign="top">
+                                    <img id="image_url" src="{% if form_data['image_url'] %}{{ form_data['image_url']|thumbnail }}{% else %}https://placehold.jp/250x250.png{% endif %}" alt="">
+                                </th>
+                                <td style="border: none;">
+                                    <input type="text" style="margin: 0 0 20px 0" name="image_url" id="input_image_add" class="input_text" placeholder="画像を選択してください" value="{% if form_data['image_url'] %}{{ form_data['image_url'] }}{% endif %}">
+                                    <div style="margin: 0 0 20px 0">
+                                        <input type="button" id="input_image_add_button" data-lang="{{ lang }}" value="ファイルから選択する" class="button_1">
+                                    </div>
+                                    <input type="button" id="input_image_list_add_button" data-lang="{{ lang }}" value="一覧から選択する" class="button_1">
+                                    <div id="image_list_block" style="display: none; padding: 20px 0 0 0;">
+                                        <table class="table" style="margin: 0">
+                                            <tr><td class="table_image_title">ファイル名</td></tr>
+                                            <tr><td><ul class="text_list" id="image_list"></ul></td></tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
                     </td>
                 </tr>
             </table>
