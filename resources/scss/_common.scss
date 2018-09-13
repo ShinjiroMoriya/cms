@@ -112,3 +112,10 @@ label
 {
     cursor: pointer;
 }
+
+input[type='submit'],
+input[type='button'],
+button {
+    -webkit-appearance: none;
+    appearance: none;
+}
