@@ -30,11 +30,13 @@ class IntroductionForm(forms.Form):
     titles = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
-        choices=lambda: [(v.id, v.id) for v in Title.get_all()])
+        choices=lambda: [(v.id, v.id) for v in Title.get_all()],
+        error_messages=ERROR_MESSAGES)
     videos = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
-        choices=lambda: [(v.id, v.id) for v in Video.get_all()])
+        choices=lambda: [(v.id, v.id) for v in Video.get_all()],
+        error_messages = ERROR_MESSAGES)
     published_at = forms.DateTimeField(required=True,
                                        error_messages=ERROR_MESSAGES)
 
@@ -52,19 +54,23 @@ class VideoForm(forms.Form):
     introductions = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
-        choices=lambda: [(v.id, v.id) for v in Introduction.get_all()])
+        choices=lambda: [(v.id, v.id) for v in Introduction.get_all()],
+        error_messages=ERROR_MESSAGES)
     topics = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
-        choices=lambda: [(v.id, v.id) for v in Topic.get_all()])
+        choices=lambda: [(v.id, v.id) for v in Topic.get_all()],
+        error_messages=ERROR_MESSAGES)
     categories = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
-        choices=lambda: [(v.id, v.id) for v in Category.get_all()])
+        choices=lambda: [(v.id, v.id) for v in Category.get_all()],
+        error_messages=ERROR_MESSAGES)
     videos = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
-        choices=lambda: [(v.id, v.id) for v in Video.get_all()])
+        choices=lambda: [(v.id, v.id) for v in Video.get_all()],
+        error_messages=ERROR_MESSAGES)
 
 
 class TopicForm(forms.Form):
@@ -81,7 +87,8 @@ class TopicForm(forms.Form):
     videos = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
-        choices=lambda: [(v.id, v.id) for v in Video.get_all()])
+        choices=lambda: [(v.id, v.id) for v in Video.get_all()],
+        error_messages=ERROR_MESSAGES)
 
 
 class TitleForm(forms.Form):
@@ -90,7 +97,8 @@ class TitleForm(forms.Form):
     introductions = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
-        choices=lambda: [(v.id, v.id) for v in Introduction.get_all()])
+        choices=lambda: [(v.id, v.id) for v in Introduction.get_all()],
+        error_messages=ERROR_MESSAGES)
 
 
 class IntroductionEnForm(forms.Form):
@@ -103,11 +111,13 @@ class IntroductionEnForm(forms.Form):
     titles = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
-        choices=lambda: [(v.id, v.id) for v in Title.get_all()])
+        choices=lambda: [(v.id, v.id) for v in Title.get_all()],
+        error_messages=ERROR_MESSAGES)
     videos = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
-        choices=lambda: [(v.id, v.id) for v in Video.get_all()])
+        choices=lambda: [(v.id, v.id) for v in Video.get_all()],
+        error_messages=ERROR_MESSAGES)
     published_at = forms.DateTimeField(required=True,
                                        error_messages=ERROR_MESSAGES)
 
@@ -125,19 +135,23 @@ class VideoEnForm(forms.Form):
     introductions = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
-        choices=lambda: [(v.id, v.id) for v in Introduction.get_all()])
+        choices=lambda: [(v.id, v.id) for v in Introduction.get_all()],
+        error_messages=ERROR_MESSAGES)
     topics = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
-        choices=lambda: [(v.id, v.id) for v in Topic.get_all()])
+        choices=lambda: [(v.id, v.id) for v in Topic.get_all()],
+        error_messages=ERROR_MESSAGES)
     categories = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
-        choices=lambda: [(v.id, v.id) for v in Category.get_all()])
+        choices=lambda: [(v.id, v.id) for v in Category.get_all()],
+        error_messages=ERROR_MESSAGES)
     videos = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
-        choices=lambda: [(v.id, v.id) for v in Video.get_all()])
+        choices=lambda: [(v.id, v.id) for v in Video.get_all()],
+        error_messages=ERROR_MESSAGES)
 
 
 class TopicEnForm(forms.Form):
@@ -154,7 +168,8 @@ class TopicEnForm(forms.Form):
     videos = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
-        choices=lambda: [(v.id, v.id) for v in Video.get_all()])
+        choices=lambda: [(v.id, v.id) for v in Video.get_all()],
+        error_messages=ERROR_MESSAGES)
 
 
 class TitleEnForm(forms.Form):
@@ -163,7 +178,8 @@ class TitleEnForm(forms.Form):
     introductions = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
-        choices=lambda: [(v.id, v.id) for v in Introduction.get_all()])
+        choices=lambda: [(v.id, v.id) for v in Introduction.get_all()],
+        error_messages=ERROR_MESSAGES)
 
 
 class CategoryForm(forms.Form):
@@ -174,7 +190,8 @@ class CategoryForm(forms.Form):
     group = forms.ChoiceField(
         required=False,
         widget=forms.Select,
-        choices=lambda: [(v.id, v.id) for v in Group.get_all()])
+        choices=lambda: [(v.id, v.id) for v in Group.get_all()],
+        error_messages=ERROR_MESSAGES)
 
 
 class GroupForm(forms.Form):
