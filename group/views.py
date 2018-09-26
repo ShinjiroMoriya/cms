@@ -9,7 +9,7 @@ from feed_app.services import get_error_message
 from extra.forms import GroupForm
 
 
-class GroupsView(View):
+class APIGroupsView(View):
     @staticmethod
     def get(_, lang):
         if lang == 'ja':
@@ -37,7 +37,7 @@ class GroupsView(View):
                 'message': 'Not Found'
             }, status=404)
 
-        return JsonResponse(res, safe=False)
+        return JsonResponse({'groups': res}, safe=False)
 
 
 class AdminGroupsView(View):

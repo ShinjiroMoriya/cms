@@ -15,7 +15,7 @@ class APIHomeView(View):
             cached_home_categories = Cache.get('api_home_categories')
             if cached_home_categories is None:
                 category_res = CategorySerializer(
-                    Category.get_all(), many=True)
+                    Category.get_all(), many=True).data
                 Cache.set('api_home_categories', category_res)
             else:
                 category_res = cached_home_categories
@@ -36,7 +36,7 @@ class APIHomeView(View):
             cached_home_categories_en = Cache.get('api_home_categories_en')
             if cached_home_categories_en is None:
                 category_res = CategoryEnSerializer(
-                    Category.get_all(), many=True)
+                    Category.get_all(), many=True).data
                 Cache.set('api_categories_en', category_res)
             else:
                 category_res = cached_home_categories_en
@@ -57,7 +57,7 @@ class APIHomeView(View):
             return JsonResponse({
                 'message': 'Not Found'
             }, status=404)
-
+        
         return JsonResponse({
             'categories': category_res,
             'pickup_video': video_res,

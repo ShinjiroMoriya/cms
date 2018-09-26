@@ -1,10 +1,8 @@
-import sys
 from django.views.generic import View
 from django.template.response import TemplateResponse
 from django.http import JsonResponse, HttpResponseRedirect
 from django.db import transaction
 from feed_app.cloudinary import set_image_upload, delete_resources
-from feed_app.logger import logger
 from feed_app.services import Pagination
 from video.models import Video, VideoEn
 from introduction.models import Introduction, Title, IntroductionEn, TitleEn

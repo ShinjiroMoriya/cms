@@ -4,7 +4,7 @@ from group.views import *
 
 urlpatterns = [
     path('<lang>/groups',
-         GroupsView.as_view()),
+         APIGroupsView.as_view()),
 
     path('<lang:lang>/admin/groups',
          AdminGroupsView.as_view()),
