@@ -60,5 +60,5 @@ class APIHomeView(View):
         
         return JsonResponse({
             'categories': category_res,
-            'pickup_video': video_res,
+            'pickup_videos': video_res,
         }, safe=False)
