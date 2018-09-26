@@ -495,13 +495,14 @@
 .header_status
 {
     position: fixed;
-    top: 0;
+    top: 80px;
     left: 0;
 
     display: none;
 
     width: 100%;
     padding: 10px 0;
+    z-index: 100;
 
     &._show
     {
