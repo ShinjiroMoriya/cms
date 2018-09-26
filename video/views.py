@@ -89,7 +89,7 @@ class APIVideosView(View):
                 'message': 'Not Found'
             }, status=404)
 
-        return JsonResponse(res, safe=False)
+        return JsonResponse({'videos': res}, safe=False)
 
 
 class APIVideoTopicsView(View):
