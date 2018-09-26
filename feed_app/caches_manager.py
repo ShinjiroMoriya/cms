@@ -28,7 +28,7 @@ class CacheDatabaseUpdateMiddleware:
         if request.resolver_match is None:
             return response
 
-        if request.resolver_match.func.__name__.startswith('ADMIN'):
+        if request.resolver_match.func.__name__.startswith('Admin'):
             if request.method == 'POST':
                 Cache.delete('api_*')
 
