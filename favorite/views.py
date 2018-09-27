@@ -57,6 +57,7 @@ class APIFavoritePostView(View):
                 }, status=500)
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class APIFavoriteDeleteView(View):
     @staticmethod
     def post(request, lang):
