@@ -7,5 +7,3 @@ class FavoriteForm(forms.Form):
                            error_messages=ERROR_MESSAGES, )
     video_id = forms.IntegerField(required=True,
                                   error_messages=ERROR_MESSAGES, )
-    lang = forms.CharField(required=True,
-                           error_messages=ERROR_MESSAGES, )

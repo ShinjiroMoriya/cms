@@ -13,7 +13,7 @@ from feed_app.services import get_error_message
 @method_decorator(csrf_exempt, name='dispatch')
 class APIFavoritePostView(View):
     @staticmethod
-    def post(request):
+    def post(request, lang):
         form = FavoriteForm(json.loads(request.body.decode("utf-8")))
 
         if form.errors:
@@ -27,7 +27,6 @@ class APIFavoritePostView(View):
 
         if form.is_valid():
             try:
-                lang = form.cleaned_data.get('lang')
                 if lang == 'ja':
                     video_model = Video()
                 else:
@@ -44,7 +43,7 @@ class APIFavoritePostView(View):
                 Favorite.create_favorite({
                     'uuid': form.cleaned_data.get('uuid'),
                     'video_id': form.cleaned_data.get('video_id'),
-                    'lang': form.cleaned_data.get('lang')
+                    'lang': lang
                 })
 
                 return JsonResponse({
@@ -60,7 +59,7 @@ class APIFavoritePostView(View):
 
 class APIFavoriteDeleteView(View):
     @staticmethod
-    def post(request):
+    def post(request, lang):
         form = FavoriteForm(json.loads(request.body.decode("utf-8")))
 
         if form.errors:
@@ -77,7 +76,7 @@ class APIFavoriteDeleteView(View):
                 Favorite.delete_favorite({
                     'uuid': form.cleaned_data.get('uuid'),
                     'video_id': form.cleaned_data.get('video_id'),
-                    'lang': form.cleaned_data.get('lang'),
+                    'lang': lang
                 })
 
                 return JsonResponse({

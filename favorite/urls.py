@@ -3,10 +3,10 @@ from favorite.views import APIFavoritePostView, APIFavoriteDeleteView
 
 
 urlpatterns = [
-    path('favorite/post',
+    path('<lang>/favorite/post',
          APIFavoritePostView.as_view()),
 
-    path('favorite/delete',
+    path('<lang>/favorite/delete',
          APIFavoriteDeleteView.as_view()),
 
 ]
