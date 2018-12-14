@@ -115,7 +115,7 @@
         <td valign="top">
             <ul class="text_list _select_category">
                 {%- for group in groups %}
-                <li>{{ group.name }}<ul class="text_list_child" id="group_{{ group.id }}">
+                <li><span class="category_parent">{{ group.name }}</span><ul class="text_list_child" id="group_{{ group.id }}">
                     {%- if categories %}
                     {%- for category in categories %}
                     {%- if category.group_id == group.id %}

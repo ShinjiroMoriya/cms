@@ -37,7 +37,7 @@ class APIGroupsView(View):
                 'message': 'Not Found'
             }, status=404)
 
-        return JsonResponse({'groups': res}, safe=False)
+        return JsonResponse(res, safe=False)
 
 
 class AdminGroupsView(View):

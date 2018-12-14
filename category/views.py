@@ -66,7 +66,7 @@ class AdminCategoryView(View):
                 category_model.edit_category(category_id, {
                     'name_ja': form.cleaned_data.get('name_ja'),
                     'name_en': form.cleaned_data.get('name_en'),
-                    'image_url': form.cleaned_data.get('image_url'),
+                    'image': form.cleaned_data.get('image'),
                     'order': form.cleaned_data.get('order'),
                     'group': Group.get_by_id(form.cleaned_data.get('group')),
                 })
@@ -80,13 +80,13 @@ class AdminCategoryView(View):
         title = category.name_ja
 
         return TemplateResponse(request, 'category.html', {
-                'title': title + ' | カテゴリー | FEED App 管理',
-                'category': category,
-                'groups': groups,
-                'form_data': form.cleaned_data,
-                'error_messages': get_error_message(request),
-                'lang': lang,
-            })
+            'title': title + ' | カテゴリー | FEED App 管理',
+            'category': category,
+            'groups': groups,
+            'form_data': form.cleaned_data,
+            'error_messages': get_error_message(request),
+            'lang': lang,
+        })
 
 
 class AdminCategoryCreateView(View):
@@ -131,14 +131,13 @@ class AdminCategoryCreateView(View):
 
         groups = Group.get_all()
 
-        return TemplateResponse(
-            request, 'category_create.html', {
-                'title': '新規投稿 | カテゴリー | FEED App 管理',
-                'groups': groups,
-                'form_data': form.cleaned_data,
-                'error_messages': get_error_message(request),
-                'lang': lang,
-            })
+        return TemplateResponse(request, 'category_create.html', {
+            'title': '新規投稿 | カテゴリー | FEED App 管理',
+            'groups': groups,
+            'form_data': form.cleaned_data,
+            'error_messages': get_error_message(request),
+            'lang': lang,
+        })
 
 
 class AdminCategoryDeleteView(View):
@@ -147,11 +146,14 @@ class AdminCategoryDeleteView(View):
         category_model = Category()
         category = category_model.get_by_id(category_id)
         groups = Group.get_all()
-        try:
-            if category.video_set.all().count() != 0:
-                category_model.delete_category(category_id)
+        category_count = category.video_set.all().count()
+        category_count_en = category.videoen_set.all().count()
 
-            return HttpResponseRedirect('/{}/admin/categories'.format(lang))
+        try:
+            if category_count == 0 and category_count_en == 0:
+                category_model.delete_category(category_id)
+                return HttpResponseRedirect(
+                    '/{}/admin/categories'.format(lang))
 
         except:
             pass
@@ -159,10 +161,10 @@ class AdminCategoryDeleteView(View):
         title = category.name_ja
 
         return TemplateResponse(request, 'category.html', {
-                'title': title + ' | カテゴリー | FEED App 管理',
-                'category': category,
-                'groups': groups,
-                'form_data': {},
-                'error_messages': {'delete': 'invalid'},
-                'lang': lang,
-            })
+            'title': title + ' | カテゴリー | FEED App 管理',
+            'category': category,
+            'groups': groups,
+            'form_data': {},
+            'error_messages': {'delete': ['invalid']},
+            'lang': lang,
+        })

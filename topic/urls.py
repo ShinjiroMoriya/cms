@@ -3,6 +3,12 @@ from topic.views import *
 
 
 urlpatterns = [
+    path('<lang>/events',
+         APIEventsView.as_view()),
+    
+    path('<lang>/events/<int:event_id>',
+         APIEventView.as_view()),
+    
     path('<lang>/topics',
          APITopicsView.as_view()),
 
@@ -26,5 +32,8 @@ urlpatterns = [
 
     path('<lang:lang>/api/topics/<int:topic_id>/status',
          AdminTopicStatusView.as_view()),
+    
+    path('<lang:lang>/api/topics/<int:topic_id>/new',
+         AdminTopicNewView.as_view()),
 
 ]

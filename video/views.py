@@ -89,7 +89,36 @@ class APIVideosView(View):
                 'message': 'Not Found'
             }, status=404)
 
-        return JsonResponse({'videos': res}, safe=False)
+        return JsonResponse(res, safe=False)
+
+
+class APIAllVideosView(View):
+    @staticmethod
+    def get(_, lang):
+        if lang == 'ja':
+            cached_videos = Cache.get('api_videos_all')
+            if cached_videos is None:
+                res = VideosSerializer(
+                    Video.get_published_all(), many=True).data
+                Cache.set('api_videos_all', res)
+            else:
+                res = cached_videos
+
+        elif lang == 'en':
+            cached_videos_en = Cache.get('api_videos_en_all')
+            if cached_videos_en is None:
+                res = VideosEnSerializer(
+                    VideoEn.get_published_all(), many=True).data
+
+                Cache.set('api_videos_en_all', res)
+            else:
+                res = cached_videos_en
+        else:
+            return JsonResponse({
+                'message': 'Not Found'
+            }, status=404)
+
+        return JsonResponse(res, safe=False)
 
 
 class APIVideoTopicsView(View):
@@ -99,10 +128,12 @@ class APIVideoTopicsView(View):
             cached_video_topics = Cache.get('api_video_topics_' + str(video_id))
             if cached_video_topics is None:
                 res = TopicsSerializer(
-                    Topic.objects.filter(video__id=video_id,
-                                         status=1,
-                                         published_at__lt=datetime.now()),
-                    many=True, read_only=True).data
+                    Topic.objects.filter(
+                        post_type='topic',
+                        video__id=video_id,
+                        status=1,
+                        published_at__lt=datetime.now()
+                    ), many=True, read_only=True).data
                 Cache.set('api_video_topics_' + str(video_id), res)
             else:
                 res = cached_video_topics
@@ -112,10 +143,12 @@ class APIVideoTopicsView(View):
                 'api_video_topics_en_' + str(video_id))
             if cached_video_topics_en is None:
                 res = TopicsEnSerializer(
-                    TopicEn.objects.filter(video__id=video_id,
-                                           status=1,
-                                           published_at__lt=datetime.now()),
-                    many=True, read_only=True).data
+                    TopicEn.objects.filter(
+                        post_type='topic',
+                        video__id=video_id,
+                        status=1,
+                        published_at__lt=datetime.now()
+                    ), many=True, read_only=True).data
                 Cache.set('api_video_topics_en_' + str(video_id), res)
             else:
                 res = cached_video_topics_en
@@ -124,7 +157,7 @@ class APIVideoTopicsView(View):
                 'message': 'Not Found'
             }, status=404)
 
-        return JsonResponse({'topics': res}, safe=False)
+        return JsonResponse(res, safe=False)
 
 
 class AdminVideosView(View):
@@ -176,11 +209,17 @@ class AdminVideoView(View):
         if video is None:
             raise Http404
 
-        use_introductions = video.introduction.all()
         use_categories = video.category.all()
-        use_topics = video.topic.all()
-        use_videos = video.video.all()
         groups = Group.get_all()
+
+        if lang == 'ja':
+            use_introductions = video.introduction.all().order_by(
+                'video_introduction.id')
+            use_videos = video.video.all().order_by('video_video.id')
+        else:
+            use_introductions = video.introduction.all().order_by(
+                'video_en_introduction.id')
+            use_videos = video.video.all().order_by('video_en_video.id')
 
         title = video.title
 
@@ -190,7 +229,6 @@ class AdminVideoView(View):
             'use_videos': use_videos,
             'use_introductions': use_introductions,
             'use_categories': use_categories,
-            'use_topics': use_topics,
             'groups': groups,
             'form_data': {},
             'error_messages': {},
@@ -222,9 +260,8 @@ class AdminVideoView(View):
                 video_model.edit_video(video_id, {
                     'published_at': form.cleaned_data.get('published_at'),
                     'title': form.cleaned_data.get('title'),
-                    'body': form.cleaned_data.get('body'),
+                    'text': form.cleaned_data.get('text'),
                     'youtube_id': form.cleaned_data.get('youtube_id'),
-                    'pickup': form.cleaned_data.get('pickup'),
                 })
                 add_introductions = form.cleaned_data.get('introductions')
                 if add_introductions:
@@ -237,12 +274,6 @@ class AdminVideoView(View):
                     video_model.add_category(video_id, add_categories)
                 else:
                     video_model.remove_category(video_id)
-
-                add_topics = form.cleaned_data.get('topics')
-                if add_topics:
-                    video_model.add_topic(video_id, add_topics)
-                else:
-                    video_model.remove_topic(video_id)
 
                 add_videos = form.cleaned_data.get('videos')
                 if add_videos:
@@ -261,10 +292,8 @@ class AdminVideoView(View):
 
         if lang == 'ja':
             introduction_model = Introduction()
-            topic_model = Topic()
         else:
             introduction_model = IntroductionEn()
-            topic_model = TopicEn()
 
         use_categories = []
         if form.cleaned_data.get('categories'):
@@ -275,11 +304,6 @@ class AdminVideoView(View):
         if form.cleaned_data.get('introductions'):
             title_ids = list(map(int, form.cleaned_data.get('introductions')))
             use_introductions = introduction_model.get_by_ids(title_ids)
-
-        use_topics = []
-        if form.cleaned_data.get('topics'):
-            topic_ids = list(map(int, form.cleaned_data.get('topics')))
-            use_topics = topic_model.get_by_ids(topic_ids)
 
         use_videos = []
         if form.cleaned_data.get('videos'):
@@ -295,7 +319,6 @@ class AdminVideoView(View):
                 'form_data': form.cleaned_data,
                 'use_introductions': use_introductions,
                 'use_categories': use_categories,
-                'use_topics': use_topics,
                 'use_videos': use_videos,
                 'groups': groups,
                 'error_messages': get_error_message(request),
@@ -327,7 +350,6 @@ class AdminVideoCreateView(View):
         else:
             form = VideoEnForm(request.POST)
             video_model = VideoEn()
-
         if form.errors:
             messages.add_message(request, messages.INFO,
                                  dict(form.errors.items()))
@@ -337,13 +359,13 @@ class AdminVideoCreateView(View):
                 res_video = video_model.create_video({
                     'published_at': form.cleaned_data.get('published_at'),
                     'title': form.cleaned_data.get('title'),
-                    'body': form.cleaned_data.get('body'),
+                    'text': form.cleaned_data.get('text'),
                     'youtube_id': form.cleaned_data.get('youtube_id'),
-                    'pickup': form.cleaned_data.get('pickup'),
                 })
                 add_introductions = form.cleaned_data.get('introductions')
                 if add_introductions:
-                    video_model.add_introduction(res_video.id, add_introductions)
+                    video_model.add_introduction(
+                        res_video.id, add_introductions)
                 add_categories = form.cleaned_data.get('categories')
                 if add_categories:
                     video_model.add_category(res_video.id, add_categories)

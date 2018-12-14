@@ -1,10 +1,11 @@
 from django import forms
 from feed_app.validator import *
 from django.forms.widgets import RadioSelect
-from video.models import Video
-from introduction.models import Introduction, Title
+from extra.models import Image
+from video.models import Video, VideoEn
+from introduction.models import Introduction, IntroductionEn, Title, TitleEn
 from category.models import Category
-from topic.models import Topic
+from topic.models import Topic, TopicEn
 from group.models import Group
 
 
@@ -20,13 +21,18 @@ class StatusForm(forms.Form):
                                error_messages=ERROR_MESSAGES)
 
 
+class NewForm(forms.Form):
+    new = forms.BooleanField(required=False,
+                             error_messages=ERROR_MESSAGES)
+
+
 class IntroductionForm(forms.Form):
     name = forms.CharField(required=True,
                            error_messages=ERROR_MESSAGES)
-    body = forms.CharField(required=True,
+    text = forms.CharField(required=True,
                            error_messages=ERROR_MESSAGES)
-    thumbnail_url = forms.CharField(required=True,
-                                    error_messages=ERROR_MESSAGES)
+    thumbnail = forms.CharField(required=True,
+                                error_messages=ERROR_MESSAGES)
     titles = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
@@ -36,7 +42,7 @@ class IntroductionForm(forms.Form):
         required=False,
         widget=forms.CheckboxSelectMultiple,
         choices=lambda: [(v.id, v.id) for v in Video.get_all()],
-        error_messages = ERROR_MESSAGES)
+        error_messages=ERROR_MESSAGES)
     published_at = forms.DateTimeField(required=True,
                                        error_messages=ERROR_MESSAGES)
 
@@ -44,11 +50,10 @@ class IntroductionForm(forms.Form):
 class VideoForm(forms.Form):
     title = forms.CharField(required=True,
                             error_messages=ERROR_MESSAGES)
-    body = forms.CharField(required=True,
+    text = forms.CharField(required=True,
                            error_messages=ERROR_MESSAGES)
     youtube_id = forms.CharField(required=True,
                                  error_messages=ERROR_MESSAGES)
-    pickup = forms.BooleanField(required=False)
     published_at = forms.DateTimeField(required=True,
                                        error_messages=ERROR_MESSAGES)
     introductions = forms.MultipleChoiceField(
@@ -74,16 +79,28 @@ class VideoForm(forms.Form):
 
 
 class TopicForm(forms.Form):
+    post_type = forms.CharField(required=True,
+                                error_messages=ERROR_MESSAGES)
+    new = forms.BooleanField(required=False,
+                             error_messages=ERROR_MESSAGES)
     title = forms.CharField(required=True,
                             error_messages=ERROR_MESSAGES)
-    body = forms.CharField(required=True,
+    text = forms.CharField(required=True,
                            error_messages=ERROR_MESSAGES)
-    image_url = forms.CharField(required=True,
-                                error_messages=ERROR_MESSAGES)
-    event_url = forms.CharField(required=True,
-                                error_messages=ERROR_MESSAGES)
+    url = forms.CharField(required=True,
+                          error_messages=ERROR_MESSAGES)
+    button_label = forms.CharField(required=True,
+                                   error_messages=ERROR_MESSAGES)
     published_at = forms.DateTimeField(required=True,
                                        error_messages=ERROR_MESSAGES)
+    thumbnail = forms.CharField(required=True,
+                                error_messages=ERROR_MESSAGES)
+    images = forms.MultipleChoiceField(
+        required=False,
+        widget=forms.CheckboxSelectMultiple,
+        choices=lambda: [(v.id, v.id) for v in Image.get_all()],
+        error_messages=ERROR_MESSAGES)
+
     videos = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
@@ -104,19 +121,19 @@ class TitleForm(forms.Form):
 class IntroductionEnForm(forms.Form):
     name = forms.CharField(required=True,
                            error_messages=ERROR_MESSAGES)
-    body = forms.CharField(required=True,
+    text = forms.CharField(required=True,
                            error_messages=ERROR_MESSAGES)
-    thumbnail_url = forms.CharField(required=True,
-                                    error_messages=ERROR_MESSAGES)
+    thumbnail = forms.CharField(required=True,
+                                error_messages=ERROR_MESSAGES)
     titles = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
-        choices=lambda: [(v.id, v.id) for v in Title.get_all()],
+        choices=lambda: [(v.id, v.id) for v in TitleEn.get_all()],
         error_messages=ERROR_MESSAGES)
     videos = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
-        choices=lambda: [(v.id, v.id) for v in Video.get_all()],
+        choices=lambda: [(v.id, v.id) for v in VideoEn.get_all()],
         error_messages=ERROR_MESSAGES)
     published_at = forms.DateTimeField(required=True,
                                        error_messages=ERROR_MESSAGES)
@@ -125,22 +142,21 @@ class IntroductionEnForm(forms.Form):
 class VideoEnForm(forms.Form):
     title = forms.CharField(required=True,
                             error_messages=ERROR_MESSAGES)
-    body = forms.CharField(required=True,
+    text = forms.CharField(required=True,
                            error_messages=ERROR_MESSAGES)
     youtube_id = forms.CharField(required=True,
                                  error_messages=ERROR_MESSAGES)
-    pickup = forms.BooleanField(required=False)
     published_at = forms.DateTimeField(required=True,
                                        error_messages=ERROR_MESSAGES)
     introductions = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
-        choices=lambda: [(v.id, v.id) for v in Introduction.get_all()],
+        choices=lambda: [(v.id, v.id) for v in IntroductionEn.get_all()],
         error_messages=ERROR_MESSAGES)
     topics = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
-        choices=lambda: [(v.id, v.id) for v in Topic.get_all()],
+        choices=lambda: [(v.id, v.id) for v in TopicEn.get_all()],
         error_messages=ERROR_MESSAGES)
     categories = forms.MultipleChoiceField(
         required=False,
@@ -150,25 +166,36 @@ class VideoEnForm(forms.Form):
     videos = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
-        choices=lambda: [(v.id, v.id) for v in Video.get_all()],
+        choices=lambda: [(v.id, v.id) for v in VideoEn.get_all()],
         error_messages=ERROR_MESSAGES)
 
 
 class TopicEnForm(forms.Form):
+    post_type = forms.CharField(required=True,
+                                error_messages=ERROR_MESSAGES)
+    new = forms.BooleanField(required=False,
+                             error_messages=ERROR_MESSAGES)
     title = forms.CharField(required=True,
                             error_messages=ERROR_MESSAGES)
-    body = forms.CharField(required=True,
+    text = forms.CharField(required=True,
                            error_messages=ERROR_MESSAGES)
-    image_url = forms.CharField(required=True,
-                                error_messages=ERROR_MESSAGES)
-    event_url = forms.CharField(required=True,
-                                error_messages=ERROR_MESSAGES)
+    url = forms.CharField(required=True,
+                          error_messages=ERROR_MESSAGES)
+    button_label = forms.CharField(required=True,
+                                   error_messages=ERROR_MESSAGES)
     published_at = forms.DateTimeField(required=True,
                                        error_messages=ERROR_MESSAGES)
+    thumbnail = forms.CharField(required=True,
+                                error_messages=ERROR_MESSAGES)
+    images = forms.MultipleChoiceField(
+        required=False,
+        widget=forms.CheckboxSelectMultiple,
+        choices=lambda: [(v.id, v.id) for v in Image.get_all()],
+        error_messages=ERROR_MESSAGES)
     videos = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
-        choices=lambda: [(v.id, v.id) for v in Video.get_all()],
+        choices=lambda: [(v.id, v.id) for v in VideoEn.get_all()],
         error_messages=ERROR_MESSAGES)
 
 
@@ -178,14 +205,14 @@ class TitleEnForm(forms.Form):
     introductions = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
-        choices=lambda: [(v.id, v.id) for v in Introduction.get_all()],
+        choices=lambda: [(v.id, v.id) for v in IntroductionEn.get_all()],
         error_messages=ERROR_MESSAGES)
 
 
 class CategoryForm(forms.Form):
     name_ja = forms.CharField(required=True, error_messages=ERROR_MESSAGES)
     name_en = forms.CharField(required=True, error_messages=ERROR_MESSAGES)
-    image_url = forms.CharField(required=True, error_messages=ERROR_MESSAGES)
+    image = forms.CharField(required=True, error_messages=ERROR_MESSAGES)
     order = forms.IntegerField(required=True, error_messages=ERROR_MESSAGES)
     group = forms.ChoiceField(
         required=False,

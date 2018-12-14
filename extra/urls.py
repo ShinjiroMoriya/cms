@@ -11,8 +11,8 @@ urlpatterns = [
 
     path('<lang:lang>/api/images/add',
          AdminImageAddView.as_view()),
-
-    path('<lang:lang>/api/images/delete/<int:image_id>',
+    
+    path('<lang:lang>/api/images/delete/<str:image_id>',
          AdminImagesDeleteCheckView.as_view()),
 
     path('<lang:lang>/api/images',
@@ -42,7 +42,7 @@ urlpatterns = [
     path('<lang:lang>/admin/images/page/<int:paged>',
          AdminImagesIndexView.as_view()),
 
-    path('<lang:lang>/admin/images/delete/<int:image_id>',
+    path('<lang:lang>/admin/images/delete/<str:image_id>',
          AdminImagesDeleteView.as_view()),
 
 ]

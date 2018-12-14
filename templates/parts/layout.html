@@ -12,7 +12,10 @@
 </head>
 <body>
     <header class="header">
-        <h1 class="header_title">FEED App 管理 / {% if lang == 'ja' %}日本語{% else %}英語{% endif %}</h1>
+        <div class="header_logo">
+            <a href="/{{ lang }}/admin"><img src="/assets/img/logo.jpg" alt="FEED"></a>
+        </div>
+        <h1 class="header_title">APP 管理 / {% if lang == 'ja' %}日本語{% else %}英語{% endif %}</h1>
         <ul class="header_menu_right">
             <li><a href="/ja/admin">日本語</a></li>
             <li>/</li>

@@ -24,7 +24,7 @@
         <p class="error_text">タイトルを正しく入力してください。</p>
         {%- endif %}
         {%- endfor %}
-        {%- for mes in error_messages['body'] %}
+        {%- for mes in error_messages['text'] %}
         {%- if mes == 'required' %}
         <p class="error_text">本文を入力してください。</p>
         {%- endif %}
@@ -58,7 +58,7 @@
                 <tr>
                     <th>本文</th>
                     <td>
-                        <textarea name="body" class="input_textarea" placeholder="入力してください">{% if form_data['body'] %}{{ form_data['body'] }}{% else %}{% if video.body %}{{ video.body }}{% endif %}{% endif %}</textarea>
+                        <textarea name="text" class="input_textarea" placeholder="入力してください">{% if form_data['text'] %}{{ form_data['text'] }}{% else %}{% if video.text %}{{ video.text }}{% endif %}{% endif %}</textarea>
                     </td>
                 </tr>
                 <tr>
@@ -70,16 +70,9 @@
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <th>ピックアップ</th>
-                    <td>
-                        <input type="checkbox" name="pickup" id="pickup" value="1" {% if form_data['pickup'] %}checked{% elif video.pickup %}checked{% endif %}><label for="pickup">&nbsp;</label>
-                    </td>
-                </tr>
             </table>
             {{ categories(use_categories, groups) }}
             {{ introductions(use_introductions, lang) }}
-            {{ topics(use_topics, lang) }}
             {{ videos(use_videos, lang, video.id) }}
             <input type="submit" value="保存する" class="button_1">
         </form>

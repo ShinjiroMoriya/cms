@@ -114,11 +114,15 @@ class AdminIntroductionView(View):
             raise Http404
 
         if lang == 'ja':
-            use_videos = introduction.video_set.all()
+            use_videos = introduction.video_set.all().order_by(
+                'video_introduction.id')
+            use_titles = introduction.titles.all().order_by(
+                'introduction_titles.id')
         else:
-            use_videos = introduction.videoen_set.all()
-
-        use_titles = introduction.titles.all()
+            use_videos = introduction.videoen_set.all().order_by(
+                'video_en_introduction.id')
+            use_titles = introduction.titles.all().order_by(
+                    'introduction_en_titles.id')
 
         title = introduction.name
 
@@ -156,8 +160,8 @@ class AdminIntroductionView(View):
             try:
                 introduction_model.edit_introduction(introduction_id, {
                     'name': form.cleaned_data.get('name'),
-                    'body': form.cleaned_data.get('body'),
-                    'thumbnail_url': form.cleaned_data.get('thumbnail_url'),
+                    'text': form.cleaned_data.get('text'),
+                    'thumbnail': form.cleaned_data.get('thumbnail'),
                 })
                 add_videos = form.cleaned_data.get('videos')
                 if add_videos:
@@ -170,7 +174,6 @@ class AdminIntroductionView(View):
                 add_titles = form.cleaned_data.get('titles')
                 if add_titles:
                     introduction_model.add_title(introduction_id, add_titles)
-
                 else:
                     introduction_model.remove_title(introduction_id)
 
@@ -184,28 +187,22 @@ class AdminIntroductionView(View):
                 pass
 
         introduction = introduction_model.get_by_id(introduction_id)
+        title = introduction.name
 
+        use_videos = []
         if form.cleaned_data.get('videos'):
             video_ids = list(map(int, form.cleaned_data.get('videos')))
             use_videos = video_model.get_by_ids(video_ids)
 
-        else:
-            if lang == 'ja':
-                use_videos = introduction.video_set.all()
-            else:
-                use_videos = introduction.videoen_set.all()
-
+        use_titles = []
         if form.cleaned_data.get('titles'):
             title_ids = list(map(int, form.cleaned_data.get('titles')))
             use_titles = title_model.get_by_ids(title_ids)
-        else:
-            use_titles = introduction.titles.all()
-
-        title = introduction.name
 
         return TemplateResponse(
             request, 'introduction.html', {
                 'title': title + ' | イントロダクション | FEED App 管理',
+                'introduction': introduction,
                 'use_videos': use_videos,
                 'use_titles': use_titles,
                 'form_data': form.cleaned_data,
@@ -250,8 +247,8 @@ class AdminIntroductionCreateView(View):
             try:
                 res_introduction = introduction_model.create_introduction({
                     'name': form.cleaned_data.get('name'),
-                    'body': form.cleaned_data.get('body'),
-                    'thumbnail_url': form.cleaned_data.get('thumbnail_url'),
+                    'text': form.cleaned_data.get('text'),
+                    'thumbnail': form.cleaned_data.get('thumbnail'),
                 })
                 add_videos = form.cleaned_data.get('videos')
                 if add_videos:
@@ -408,8 +405,12 @@ class AdminTitleView(View):
             raise Http404
 
         title = title_post.title
-
-        use_introductions = title_post.introduction_set.all()
+        if lang == 'ja':
+            use_introductions = title_post.introduction_set.all().order_by(
+                'introduction_titles.id')
+        else:
+            use_introductions = title_post.introductionen_set.all().order_by(
+                'introduction_en_titles.id')
 
         return TemplateResponse(request, 'title.html', {
             'title': title + ' | タイトル | FEED App 管理',

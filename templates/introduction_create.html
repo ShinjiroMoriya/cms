@@ -25,7 +25,7 @@
         <p class="error_text">名前を正しく入力してください。</p>
         {%- endif %}
         {%- endfor %}
-        {%- for mes in error_messages['body'] %}
+        {%- for mes in error_messages['text'] %}
         {%- if mes == 'required' %}
         <p class="error_text">本文を入力してください。</p>
         {%- endif %}
@@ -33,7 +33,7 @@
         <p class="error_text">本文を正しく入力してください。</p>
         {%- endif %}
         {%- endfor %}
-        {%- for mes in error_messages['thumbnail_url'] %}
+        {%- for mes in error_messages['thumbnail'] %}
         {%- if mes == 'required' %}
         <p class="error_text">サムネイル画像を選択してください。</p>
         {%- endif %}
@@ -59,32 +59,30 @@
                 <tr>
                     <th>本文</th>
                     <td>
-                        <textarea name="body" class="input_textarea" placeholder="入力してください">{% if form_data['body'] %}{{ form_data['body'] }}{% endif %}</textarea>
+                        <textarea name="text" class="input_textarea" placeholder="入力してください">{% if form_data['text'] %}{{ form_data['text'] }}{% endif %}</textarea>
                     </td>
                 </tr>
                 <tr>
                     <th>サムネイル画像</th>
                     <td>
-                        <table class="table _no_space">
-                            <tr>
-                                <th style="border: none; padding: 0;" valign="top">
-                                    <img id="image_url" src="{% if form_data['thumbnail_url'] %}{{ form_data['thumbnail_url']|thumbnail }}{% else %}https://placehold.jp/250x250.png{% endif %}" alt="">
-                                </th>
-                                <td style="border: none;">
-                                    <input type="text" style="margin: 0 0 20px 0" name="thumbnail_url" id="input_image_add" class="input_text" placeholder="画像を選択してください" value="{% if form_data['thumbnail_url'] %}{{ form_data['thumbnail_url'] }}{% endif %}">
-                                    <div style="margin: 0 0 20px 0">
-                                        <input type="button" id="input_image_add_button" data-lang="{{ lang }}" value="ファイルから選択する" class="button_1">
-                                    </div>
-                                    <input type="button" id="input_image_list_add_button" data-lang="{{ lang }}" value="一覧から選択する" class="button_1">
-                                    <div id="image_list_block" style="display: none; padding: 20px 0 0 0;">
-                                        <table class="table" style="margin: 0">
-                                            <tr><td class="table_image_title">ファイル名</td></tr>
-                                            <tr><td><ul class="text_list" id="image_list"></ul></td></tr>
-                                        </table>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
+                        <div class="image_thumbnails" id="image_thumbnails_2">
+                            {% if form_data['thumbnail'] %}
+                            <div>
+                                <input type="hidden" name="thumbnail" value="{% if form_data['thumbnail'] %}{{ form_data['thumbnail'] }}{% endif %}">
+                                <img src="{% if form_data['thumbnail'] %}{{ form_data['thumbnail']|thumbnail }}{% endif %}" alt=""><span class="thumbnail_delete">取消</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="image_buttons">
+                            <input type="button" value="ファイルから選択する" data-image_type="thumbnail" class="button_3 input_image_add_button">
+                            <input type="button" data-lang="{{ lang }}" value="一覧から選択する" class="button_3 input_image_list_add_button">
+                        </div>
+                        <div class="image_list_block image_list_block">
+                            <table class="table image_list_block_table">
+                                <tr><td class="table_image_title">ファイル名</td></tr>
+                                <tr><td><ul class="image_list text_list" data-image_type="thumbnail"></ul></td></tr>
+                            </table>
+                        </div>
                     </td>
                 </tr>
             </table>

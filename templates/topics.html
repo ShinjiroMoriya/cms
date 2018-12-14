@@ -16,12 +16,16 @@
         <table class="table">
             <tr>
                 <td class="table_title">タイトル</td>
+                <td class="table_status">新着</td>
+                <td class="table_status">記事種別</td>
                 <td class="table_status">公開ステータス</td>
                 <td class="table_date">公開日時</td>
             </tr>
             {%- for topic in topics %}
             <tr>
-                <td><a href="/{{ lang }}/admin/topics/{{ topic.id }}" class="a_link">{{ topic.title }}</a></td>
+                <td><p><a href="/{{ lang }}/admin/topics/{{ topic.id }}" class="a_link">{{ topic.title }}</a></p></td>
+                <td><input type="checkbox" name="new" class="new_checked"{% if topic.new %} checked{% endif %} data-lang="{{ lang }}" data-post_type="topic" data-post_id="{{ topic.id }}"></td>
+                <td>{% if topic.post_type == 'event' %}イベント{% else %}トピック{% endif %}</td>
                 <td>
                     <select name="status" class="status_select input_select" data-lang="{{ lang }}" data-post_type="topic" data-post_id="{{ topic.id }}">
                         <option value="2"{% if topic.status == 2 %} selected{% endif %}>下書き</option>

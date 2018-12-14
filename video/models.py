@@ -11,10 +11,9 @@ class VideoBase(models.Model):
         ordering = ['-id', '-published_at']
 
     title = models.CharField(max_length=255)
-    body = models.TextField(blank=True, null=True)
+    text = models.TextField(blank=True, null=True)
 
     youtube_id = models.CharField(max_length=255, blank=True, null=True)
-    pickup = models.BooleanField(default=False)
     status = models.IntegerField(default=2)
 
     category = models.ManyToManyField(to=Category, blank=True)
@@ -163,13 +162,14 @@ class VideoBase(models.Model):
         try:
             for v in all_video_ids:
                 video = cls.objects.get(id=v)
-                video.introduction.remove(video_id)
+                video.video.remove(video_id)
 
         except:
             pass
 
     @classmethod
     def add_video_from_topic(cls, topic_id, video_ids):
+        video_ids = list(map(int, video_ids))
         all_video_ids = [v.id for v in cls.get_all()]
         try:
             for v in all_video_ids:

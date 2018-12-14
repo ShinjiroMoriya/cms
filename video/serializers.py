@@ -4,6 +4,34 @@ from introduction.models import Introduction, IntroductionEn
 from video.models import Video, VideoEn
 
 
+introduction_fields = (
+    'id',
+    'name',
+)
+
+videos_fields = (
+    'id',
+    'title',
+    'youtube_id',
+    'introductions'
+)
+
+video_fields = (
+    'id',
+    'title',
+    'text',
+    'youtube_id',
+    'introductions',
+    'videos',
+)
+
+video_rel_fields = (
+    'id',
+    'title',
+    'youtube_id',
+)
+
+
 class PublishedSerializer(serializers.ListSerializer):
     def update(self, instance, validated_data):
         pass
@@ -13,99 +41,105 @@ class PublishedSerializer(serializers.ListSerializer):
         return super().to_representation(data)
 
 
-class VideosSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Video
-        fields = (
-            'id',
-            'title',
-            'youtube_id'
-        )
-
-
 class IntroductionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Introduction
         list_serializer_class = PublishedSerializer
-        fields = (
-            'id',
-            'name',
-        )
+        fields = introduction_fields
 
 
-class VideoRelationSerializer(serializers.ModelSerializer):
+class VideosSerializer(serializers.ModelSerializer):
+    introductions = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Video
+        fields = videos_fields
+
+    @staticmethod
+    def get_introductions(obj):
+        introductions = IntroductionSerializer(
+            obj.introduction.order_by('video_introduction.id'),
+            many=True, read_only=True)
+        return introductions.data
+
+
+class VideosRelationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Video
         list_serializer_class = PublishedSerializer
-        fields = (
-            'id',
-            'title',
-            'youtube_id'
-        )
+        fields = video_rel_fields
 
 
 class VideoSerializer(serializers.ModelSerializer):
-    introductions = IntroductionSerializer(
-        source='introduction', many=True, read_only=True)
-    videos = VideoRelationSerializer(
-        source='video', many=True, read_only=True)
+    introductions = serializers.SerializerMethodField()
+    videos = serializers.SerializerMethodField()
 
     class Meta:
         model = Video
-        fields = (
-            'id',
-            'title',
-            'body',
-            'introductions',
-            'videos',
-            'youtube_id'
-        )
+        fields = video_fields
 
+    @staticmethod
+    def get_introductions(obj):
+        introductions = IntroductionSerializer(
+            obj.introduction.order_by('video_introduction.id'),
+            many=True, read_only=True)
+        return introductions.data
 
-class VideosEnSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = VideoEn
-        fields = (
-            'id',
-            'title',
-            'youtube_id'
-        )
+    @staticmethod
+    def get_videos(obj):
+        videos = VideoRelationEnSerializer(
+            obj.video.order_by('video_video.id'),
+            many=True, read_only=True)
+        return videos.data
 
 
 class IntroductionEnSerializer(serializers.ModelSerializer):
     class Meta:
         model = IntroductionEn
         list_serializer_class = PublishedSerializer
-        fields = (
-            'id',
-            'name',
-        )
+        fields = introduction_fields
+
+
+class VideosEnSerializer(serializers.ModelSerializer):
+    introductions = serializers.SerializerMethodField()
+
+    class Meta:
+        model = VideoEn
+        fields = videos_fields
+
+    @staticmethod
+    def get_introductions(obj):
+        introductions = IntroductionSerializer(
+            obj.introduction.order_by('video_en_introduction.id'),
+            many=True, read_only=True)
+        return introductions.data
 
 
 class VideoRelationEnSerializer(serializers.ModelSerializer):
     class Meta:
         model = VideoEn
         list_serializer_class = PublishedSerializer
-        fields = (
-            'id',
-            'title',
-            'youtube_id'
-        )
+        fields = video_rel_fields
 
 
 class VideoEnSerializer(serializers.ModelSerializer):
-    introductions = IntroductionSerializer(
-        source='introduction', many=True, read_only=True)
-    videos = VideoRelationSerializer(
-        source='video', many=True, read_only=True)
+    introductions = serializers.SerializerMethodField()
+    videos = serializers.SerializerMethodField()
 
     class Meta:
         model = Video
-        fields = (
-            'id',
-            'title',
-            'body',
-            'introductions',
-            'videos',
-            'youtube_id'
-        )
+        fields = video_fields
+
+    @staticmethod
+    def get_introductions(obj):
+        introductions = IntroductionEnSerializer(
+            obj.introduction.order_by('video_en_introduction.id'),
+            many=True, read_only=True)
+        return introductions.data
+
+    @staticmethod
+    def get_videos(obj):
+        videos = VideoRelationEnSerializer(
+            obj.video.order_by('video_en_video.id'),
+            many=True, read_only=True)
+        return videos.data

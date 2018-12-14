@@ -9,6 +9,7 @@ from introduction.models import Introduction, Title, IntroductionEn, TitleEn
 from group.models import Group
 from topic.models import Topic, TopicEn
 from extra.models import Image
+from category.models import Category
 from extra.serializers import (
     ImagesSerializer, TitlesSerializer, TitlesEnSerializer,
     VideosSerializer, VideosEnSerializer, TopicsSerializer, TopicsEnSerializer,
@@ -74,32 +75,13 @@ class AdminImagesIndexView(View):
 class AdminImagesDeleteView(View):
     @staticmethod
     def get(_, lang, image_id):
-
-        delete_flag = True
-
         sid = transaction.savepoint()
         image_model = Image()
 
-        if lang == 'ja':
-            topic_model = Topic()
-            introduction_model = Introduction()
-        else:
-            topic_model = TopicEn()
-            introduction_model = IntroductionEn()
-
         try:
-            image = image_model.get_by_image_id(image_id)
-
-            if topic_model.is_use_image(image.image_url) is True:
-                delete_flag = False
-
-            if introduction_model.is_use_image(image.image_url) is True:
-                delete_flag = False
-
-            if delete_flag is True:
-                delete_resources([image_id])
-                image_model.delete_image(image_id)
-                transaction.savepoint_commit(sid)
+            delete_resources([image_id])
+            image_model.delete_image(image_id)
+            transaction.savepoint_commit(sid)
 
         except:
 
@@ -116,6 +98,7 @@ class AdminImagesDeleteCheckView(View):
         delete_flag = True
 
         image_model = Image()
+        category_model = Category()
 
         if lang == 'ja':
             topic_model = Topic()
@@ -127,15 +110,40 @@ class AdminImagesDeleteCheckView(View):
         try:
             image = image_model.get_by_image_id(image_id)
 
-            if topic_model.is_use_image(image.image_url) is True:
+            topic_use_flag, topic_use_posts = topic_model.is_use_image(
+                image.image_url, image.id)
+
+            if topic_use_flag is True:
                 delete_flag = False
 
-            if introduction_model.is_use_image(image.image_url) is True:
+            introduction_use_flag, introduction_use_posts = \
+                introduction_model.is_use_image(image.image_url)
+
+            if introduction_use_flag is True:
                 delete_flag = False
+
+            category_use_flag, category_use_posts = category_model.is_use_image(
+                image.image_url)
+
+            if category_use_flag is True:
+                delete_flag = False
+
+            use_posts = (
+                topic_use_posts +
+                category_use_posts +
+                introduction_use_posts
+            )
+
+            def get_unique_list(seq):
+                seen = []
+                return [x for x in seq if x not in seen and not seen.append(x)]
+
+            use_posts = get_unique_list(use_posts)
 
             return JsonResponse({
                 'status': 200,
-                'delete_flag': delete_flag
+                'delete_flag': delete_flag,
+                'use_posts': use_posts,
             }, status=200)
 
         except Exception as e:
@@ -356,7 +364,7 @@ class AdminTopicsAPIView(View):
                 topic_model = TopicEn()
 
             if value != '':
-                total = topic_model.get_search_all(value).count()
+                total = topic_model.get_topic_search_all(value).count()
             else:
                 total = topic_model.get_all().count()
 
@@ -364,7 +372,7 @@ class AdminTopicsAPIView(View):
                 page=paged, per_page=10, total=total, slug='')
 
             if value != '':
-                topics = topic_model.get_search_all(value)[
+                topics = topic_model.get_topic_search_all(value)[
                      pagination.offset:pagination.offset + pagination.per_page]
             else:
                 topics = topic_model.get_all()[

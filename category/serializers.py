@@ -10,7 +10,7 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'name',
-            'image_url',
+            'image',
         )
 
 
@@ -22,5 +22,5 @@ class CategoryEnSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'name',
-            'image_url',
+            'image',
         )

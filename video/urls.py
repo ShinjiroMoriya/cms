@@ -6,6 +6,9 @@ urlpatterns = [
     path('<lang>/categories/<int:category_id>/videos',
          APIVideosView.as_view()),
 
+    path('<lang>/videos',
+         APIAllVideosView.as_view()),
+
     path('<lang>/videos/<int:video_id>',
          APIVideoView.as_view()),
 

@@ -9,7 +9,7 @@ class Category(models.Model):
 
     name_ja = models.CharField(max_length=255)
     name_en = models.CharField(max_length=255)
-    image_url = models.CharField(max_length=255)
+    image = models.CharField(max_length=255)
     order = models.IntegerField(blank=True, null=True)
     group = models.ForeignKey(to=Group, blank=True, null=True,
                               on_delete=models.CASCADE,
@@ -41,3 +41,14 @@ class Category(models.Model):
     @classmethod
     def delete_category(cls, category_id):
         return cls.objects.filter(id=category_id).delete()
+
+    @classmethod
+    def is_use_image(cls, image_url):
+        use_image_posts = []
+        [use_image_posts.append({
+            'id': t.id, 'title': t.name_ja + ' / ' + t.name_en,
+            'lang': 'ja', 'post_type': 'categories',
+            'post_type_label': 'カテゴリー',
+        }) for t in cls.objects.filter(image=image_url)]
+
+        return len(use_image_posts) != 0, use_image_posts

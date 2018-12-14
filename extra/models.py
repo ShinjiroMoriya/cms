@@ -22,12 +22,12 @@ class Image(models.Model):
         return cls.objects.all()
 
     @classmethod
-    def get_by_image_url(cls, image_url):
-        return cls.objects.filter(image_url=image_url).first()
-
-    @classmethod
     def get_by_image_id(cls, image_id):
         return cls.objects.filter(image_id=image_id).first()
+    
+    @classmethod
+    def get_by_ids(cls, image_ids):
+        return cls.objects.filter(id__in=image_ids)
 
     @classmethod
     def create_image(cls, data):

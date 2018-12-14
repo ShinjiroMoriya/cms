@@ -54,11 +54,11 @@ class IntroductionBase(models.Model):
         ordering = ['-id', '-published_at']
 
     name = models.CharField(max_length=255, blank=True, null=True)
-    body = models.TextField(blank=True, null=True)
+    text = models.TextField(blank=True, null=True)
 
     status = models.IntegerField(default=2)
 
-    thumbnail_url = models.CharField(max_length=255, blank=True, null=True)
+    thumbnail = models.CharField(max_length=255, blank=True, null=True)
 
     updated_at = models.DateTimeField(default=datetime.now)
     created_at = models.DateTimeField(default=datetime.now)
@@ -175,7 +175,19 @@ class IntroductionBase(models.Model):
 
     @classmethod
     def is_use_image(cls, image_url):
-        return cls.objects.filter(thumbnail_url=image_url).count() != 0
+        use_image_posts = []
+        [use_image_posts.append({
+            'id': t.id, 'title': t.name,
+            'lang': 'ja', 'post_type': 'introductions',
+            'post_type_label': 'イントロダクション',
+        }) for t in Introduction.objects.filter(thumbnail=image_url)]
+        [use_image_posts.append({
+            'id': t.id, 'title': t.name,
+            'lang': 'en', 'post_type': 'introductions',
+            'post_type_label': 'イントロダクション',
+        }) for t in IntroductionEn.objects.filter(thumbnail=image_url)]
+
+        return len(use_image_posts) != 0, use_image_posts
 
     @classmethod
     def edit_introduction(cls, introduction_id, data):

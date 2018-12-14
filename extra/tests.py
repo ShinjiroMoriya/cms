@@ -35,9 +35,9 @@ class GroupTests(TestCase):
 
         introduction = Introduction.create_introduction({
             'name': 'introduction_name',
-            'body': 'body',
+            'text': 'text',
             'status': 1,
-            'thumbnail_url': 'thumbnail_url',
+            'thumbnail': 'thumbnail',
             'published_at': '2018-09-04 14:57',
         })
 
@@ -46,7 +46,7 @@ class GroupTests(TestCase):
         res1 = Video.create_video({
             'published_at': '2018-09-04 14:57',
             'title': 'video_title1',
-            'body': 'video_body1',
+            'text': 'video_body1',
             'youtube_id': 'youtube_id',
             'pickup': False,
             'status': 1,
@@ -55,7 +55,7 @@ class GroupTests(TestCase):
         res = Video.create_video({
             'published_at': '2018-09-04 14:57',
             'title': 'video_title2',
-            'body': 'video_body2',
+            'text': 'video_body2',
             'youtube_id': 'youtube_id',
             'pickup': False, 'status': 1,
         })
@@ -67,10 +67,11 @@ class GroupTests(TestCase):
 
         topic = Topic.create_topic({
             'title': 'topic_title',
-            'body': 'topic_body',
+            'text': 'topic_body',
             'status': 1,
-            'image_url': 'https://aaaa.com/aaa.jpg',
-            'event_url': 'https://yahoo.co.jp',
+            'images': 'https://aaaa.com/aaa.jpg',
+            'url': 'https://yahoo.co.jp',
+            'button_label': 'ボタン',
             'published_at': '2018-09-04 14:57'
         })
 

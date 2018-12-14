@@ -50,7 +50,7 @@ def get_image_url(public_id: str, sizes=None) -> [dict, dict] or [None, None]:
             sizes = {}
         return cloudinary_url(
             public_id,
-            format="jpg",
+            format='png',
             width=sizes.get('width'),
             height=sizes.get('height'),
             radius=sizes.get('radius'),
@@ -79,8 +79,15 @@ def set_image_upload(file, sizes=None):
         if images_url is None:
             return 500, {'message': 'NotRegisterFile: images_url'}
 
+        try:
+            file_name = file.name
+            file_name = file_name.split('.')
+            file_name = file_name[0]
+        except:
+            file_name = file.name
+
         return 200, {
-            'title': file.name,
+            'title': file_name,
             'image_id': upload_result['public_id'],
             'image_url': images_url
         }

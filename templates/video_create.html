@@ -24,7 +24,7 @@
         <p class="error_text">タイトルを正しく入力してください。</p>
         {%- endif %}
         {%- endfor %}
-        {%- for mes in error_messages['body'] %}
+        {%- for mes in error_messages['text'] %}
         {%- if mes == 'required' %}
         <p class="error_text">本文を入力してください。</p>
         {%- endif %}
@@ -58,19 +58,13 @@
                 <tr>
                     <th>本文</th>
                     <td>
-                        <textarea name="body" class="input_textarea" placeholder="入力してください">{% if form_data['body'] %}{{ form_data['body'] }}{% endif %}</textarea>
+                        <textarea name="text" class="input_textarea" placeholder="入力してください">{% if form_data['text'] %}{{ form_data['text'] }}{% endif %}</textarea>
                     </td>
                 </tr>
                 <tr>
                     <th>Youtube ID</th>
                     <td>
                         <input type="text" name="youtube_id" class="input_text" placeholder="入力してください" value="{% if form_data['youtube_id'] %}{{ form_data['youtube_id'] }}{% endif %}">
-                    </td>
-                </tr>
-                <tr>
-                    <th>ピックアップ</th>
-                    <td>
-                        <input type="checkbox" name="pickup" id="pickup" value="1" {% if form_data['pickup'] %}checked{% endif %}><label for="pickup">&nbsp;</label>
                     </td>
                 </tr>
             </table>

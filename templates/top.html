@@ -3,24 +3,24 @@
 <div class="header_status"><p class="header_status_text"></p></div>
 <div class="container">
     <main class="content">
-        <h2 class="page_title">最新イントロダクション <a href="/{{ lang }}/admin/introductions/create" class="a_link" style="font-size: 14px">新規投稿</a></h2>
+        <h2 class="page_title">最新トピック <a href="/{{ lang }}/admin/topics/create" class="a_link" style="font-size: 14px">新規投稿</a></h2>
         <table class="table">
             <tr>
-                <td class="table_title">名前</td>
-                <td class="table_status">ステータス</td>
+                <td class="table_title">タイトル</td>
+                <td class="table_status">公開ステータス</td>
                 <td class="table_date">公開日時</td>
             </tr>
-            {%- for introduction in introductions %}
+            {%- for topic in topics %}
             <tr>
-                <td><a href="/{{ lang }}/admin/introductions/{{ introduction.id }}" class="a_link">{{ introduction.name }}</a></td>
+                <td><p><a href="/{{ lang }}/admin/topics/{{ topic.id }}" class="a_link">{{ topic.title }}</a></p></td>
                 <td>
-                    <select name="status" class="status_select input_select" data-lang="{{ lang }}" data-post_type="introduction" data-post_id="{{introduction.id}}">
-                        <option value="2"{% if introduction.status == 2 %} selected{% endif %}>下書き</option>
-                        <option value="3"{% if introduction.status == 3 %} selected{% endif %}>非公開</option>
-                        <option value="1"{% if introduction.status == 1 %} selected{% endif %}>公開</option>
+                    <select name="status" class="status_select input_select" data-lang="{{ lang }}" data-post_type="topic" data-post_id="{{ topic.id }}">
+                        <option value="2"{% if topic.status == 2 %} selected{% endif %}>下書き</option>
+                        <option value="3"{% if topic.status == 3 %} selected{% endif %}>非公開</option>
+                        <option value="1"{% if topic.status == 1 %} selected{% endif %}>公開</option>
                     </select>
                 </td>
-                <td>{{ introduction.published_at|datetime('%Y-%m-%d %H:%M') }}</td>
+                <td>{{ topic.published_at|datetime('%Y-%m-%d %H:%M') }}</td>
             </tr>
             {%- endfor %}
         </table>
@@ -28,12 +28,12 @@
         <table class="table">
             <tr>
                 <td class="table_title">タイトル</td>
-                <td class="table_status">ステータス</td>
+                <td class="table_status">公開ステータス</td>
                 <td class="table_date">公開日時</td>
             </tr>
             {%- for video in videos %}
             <tr>
-                <td><a href="/{{ lang }}/admin/videos/{{ video.id }}" class="a_link">{{ video.title }}</a></td>
+                <td><p><a href="/{{ lang }}/admin/videos/{{ video.id }}" class="a_link">{{ video.title }}</a></p></td>
                 <td>
                     <select name="status" class="status_select input_select" data-lang="{{ lang }}" data-post_type="video" data-post_id="{{ video.id }}">
                         <option value="2"{% if video.status == 2 %} selected{% endif %}>下書き</option>
@@ -45,24 +45,24 @@
             </tr>
             {%- endfor %}
         </table>
-        <h2 class="page_title">最新トピック <a href="/{{ lang }}/admin/topics/create" class="a_link" style="font-size: 14px">新規投稿</a></h2>
+        <h2 class="page_title">最新イントロダクション <a href="/{{ lang }}/admin/introductions/create" class="a_link" style="font-size: 14px">新規投稿</a></h2>
         <table class="table">
             <tr>
-                <td class="table_title">タイトル</td>
+                <td class="table_title">名前</td>
                 <td class="table_status">公開ステータス</td>
                 <td class="table_date">公開日時</td>
             </tr>
-            {%- for topic in topics %}
+            {%- for introduction in introductions %}
             <tr>
-                <td><a href="/{{ lang }}/admin/topics/{{ topic.id }}" class="a_link">{{ topic.title }}</a></td>
+                <td><p><a href="/{{ lang }}/admin/introductions/{{ introduction.id }}" class="a_link">{{ introduction.name }}</a></p></td>
                 <td>
-                    <select name="status" class="status_select input_select" data-lang="{{ lang }}" data-post_type="topic" data-post_id="{{ topic.id }}">
-                        <option value="2"{% if topic.status == 2 %} selected{% endif %}>下書き</option>
-                        <option value="3"{% if topic.status == 3 %} selected{% endif %}>非公開</option>
-                        <option value="1"{% if topic.status == 1 %} selected{% endif %}>公開</option>
+                    <select name="status" class="status_select input_select" data-lang="{{ lang }}" data-post_type="introduction" data-post_id="{{introduction.id}}">
+                        <option value="2"{% if introduction.status == 2 %} selected{% endif %}>下書き</option>
+                        <option value="3"{% if introduction.status == 3 %} selected{% endif %}>非公開</option>
+                        <option value="1"{% if introduction.status == 1 %} selected{% endif %}>公開</option>
                     </select>
                 </td>
-                <td>{{ topic.published_at|datetime('%Y-%m-%d %H:%M') }}</td>
+                <td>{{ introduction.published_at|datetime('%Y-%m-%d %H:%M') }}</td>
             </tr>
             {%- endfor %}
         </table>

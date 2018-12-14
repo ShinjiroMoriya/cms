@@ -1,10 +1,12 @@
 from django.core.cache import cache
+from django.conf import settings
 
 
 class Cache:
     @staticmethod
     def set(key, data):
-        cache.set(key, data)
+        if settings.DEBUG is False:
+            cache.set(key, data)
 
     @staticmethod
     def delete(key):
@@ -15,7 +17,10 @@ class Cache:
 
     @staticmethod
     def get(key):
-        return cache.get(key)
+        if settings.DEBUG is False:
+            return cache.get(key)
+        else:
+            return None
 
 
 class CacheDatabaseUpdateMiddleware:

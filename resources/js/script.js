@@ -75,19 +75,65 @@ $('.status_select').on('change', function() {
     });
 });
 
+
+$('.new_checked').on('change', function() {
+    var lang = $(this).attr('data-lang');
+    var post_type = $(this).attr('data-post_type');
+    var post_id = $(this).attr('data-post_id');
+    var new_flag = $(this).prop('checked');
+    if (post_type === 'topic') {
+        var endpoint = '/' + lang + '/api/topics/' + post_id + '/new';
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: endpoint,
+        cache: false,
+        data: {
+            'new': new_flag
+        },
+        context: this
+
+    }).done(function(data) {
+        $('.header_status_text').text('更新しました');
+        $('.header_status').addClass('_show _success');
+
+    }).fail(function(jqXHR) {
+        var data = jqXHR.responseJSON;
+        if (jqXHR.status === 503) {
+            $('.header_status_text').text(data.message);
+            $('.header_status').addClass('_show _error');
+        } else {
+            $('.header_status_text').text('通信エラー');
+            $('.header_status').addClass('_show _error');
+        }
+        $(this).val($(this).data('choice'));
+
+    }).always(function(data) {
+        setTimeout(function() {
+            $('.header_status_text').text('');
+            $('.header_status').removeClass('_show _success _error');
+        }, 2000);
+    });
+});
+
 $('#delete_button').on('click', function() {
     if (!window.confirm('削除してよろしいですか？')) {
         return false;
     }
 });
 
-if ($('#input_image_add_button').length != 0) {
-  $('#input_image_add_button').on('click', function() {
+if ($('.input_image_add_button').length != 0) {
+  $('.input_image_add_button').on('click', function() {
+      var image_type = $(this).attr('data-image_type');
+      $('#upload').attr('data-image_type', image_type);
       $('#upload').click();
   });
   $('#upload').on('change', function(event) {
-      var lang = $('#input_image_add_button').attr('data-lang');
-      var refresh_href = $('#input_image_add_button').attr('data-refresh_href');
+
+      var lang = $(this).attr('data-lang');
+      var refresh_href = $(this).attr('data-refresh_href');
+      var image_type = $(this).attr('data-image_type');
 
       $('#image_upload').off('submit');
       $('#image_upload').on('submit', function(e) {
@@ -108,15 +154,25 @@ if ($('#input_image_add_button').length != 0) {
               processData: false,
               contentType: false
           }).done(function(data) {
+
+              if (refresh_href) {
+                  window.location.href = refresh_href;
+              }
+
+              var image_pk = data.id
               var image_url = data.image_url
               var thumbnail = image_url.replace( '/image/upload/', '/image/upload/w_250,h_250,c_pad,b_white/');
 
-              $('#input_image_add').val(image_url);
-              $('#image_url').attr('src', thumbnail);
+              if (image_type === 'thumbnail') {
+                  $('#image_thumbnails_2').html('<div><input type="hidden" name="thumbnail" value="' + image_url + '"><img src="' + thumbnail + '" alt=""><span class="thumbnail_delete">取消</span></div>');
+              } else if (image_type === 'image') {
+                  $('#image_thumbnails_2').html('<div><input type="hidden" name="image" value="' + image_url + '"><img src="' + thumbnail + '" alt=""><span class="thumbnail_delete">取消</span></div>');
+              } else {
+                  $('#image_thumbnails_1').append('<div><input type="hidden" name="images" value="' + image_pk + '"><img src="' + thumbnail + '" alt=""><span class="thumbnail_delete">取消</span></div>')
+              }
 
               if ($('#empty_image').length === 1) {
                   $('#empty_image').remove();
-                  $('#input_image_list_add_button').click();
               }
 
           }).fail(function(jqXHR) {
@@ -135,9 +191,6 @@ if ($('#input_image_add_button').length != 0) {
 
       $('#image_upload').trigger('submit');
 
-      if (refresh_href) {
-          window.location.href = refresh_href;
-      }
   });
 }
 
@@ -145,18 +198,18 @@ function limit_text(txt) {
 
     if (!txt) return txt;
 
-    if(txt.length > 40) {
-        txt = txt.substr(0, 40);
-        txt + '...';
+    if(txt.length > 25) {
+        txt = txt.substr(0, 25) + '...';
     }
     return txt
 }
 
-$('#input_image_list_add_button').on('click', function() {
-    if ($('#image_list').find('li').length !== 0) { return false; }
+$('.input_image_list_add_button').on('click', function() {
+    var image_block = $(this).parents("tr");
+    if (image_block.find('.image_list').find('li').length !== 0) { return false; }
     if ($('#empty_image').length === 1) { return false; }
     var lang = $(this).attr('data-lang');
-    $('#image_list_block').show();
+    image_block.find('.image_list_block').show();
     $.ajax({
         type: 'GET',
         url: '/' + lang + '/api/images',
@@ -164,22 +217,22 @@ $('#input_image_list_add_button').on('click', function() {
 
     }).done(function(data) {
         $.each(data.images, function(i, image) {
-            $('#image_list').append('<li><a href="' + image.image_url + '" data-lity class="a_link">' + limit_text(image.title) + '</a> <a href="javascript:;" class="a_link choice_image"' + 'data-image_url="' + image.image_url + '">選択</a></li>');
+            image_block.find('.image_list').append('<li><a href="' + image.image_url + '" data-lity class="a_link">' + limit_text(image.title) + '</a> <a href="javascript:;" class="a_link choice_image" data-image_url="' + image.image_url + '" data-image_pk="' + image.id + '">選択</a>・<a href="' + image.image_url + '" data-lity class="a_link">確認</a></li>');
         });
 
         if (data.total !== 1 && data.total != data.paged && data.total !== 0) {
-            $('#image_list').parent().append('<a href="javascript:;" class="a_link image_more_link"' + 'data-paged="' + (data.paged + 1) + '"' + 'data-lang="' + lang + '">さらに読み込む</a>')
+            image_block.find('.image_list').parent().append('<a href="javascript:;" class="a_link image_more_link"' + 'data-paged="' + (data.paged + 1) + '"' + 'data-lang="' + lang + '">さらに読み込む</a>')
         }
 
         if (data.total === 0) {
-            $('#image_list').parent().append(
+            image_block.find('.image_list').parent().append(
             '<p id="empty_image">画像は登録されていません。</p>')
         } else {
             $('#empty_image').remove();
         }
 
         if (data.total === data.paged) {
-            $('#image_list').parent().find('.more_link').remove();
+            image_block.find('.image_list').parent().find('.more_link').remove();
         }
 
     }).fail(function(jqXHR) {
@@ -198,6 +251,7 @@ $(document).on('click', '.image_more_link', function() {
 
     var lang = $(this).attr('data-lang');
     var paged = $(this).attr('data-paged');
+    var image_block = $(this).parents("tr");
 
     $.ajax({
         type: 'GET',
@@ -206,15 +260,15 @@ $(document).on('click', '.image_more_link', function() {
 
     }).done(function(data) {
         $.each(data.images, function(i, image) {
-            $('#image_list').append('<li><a href="' + image.image_url + '" data-lity class="a_link">' + limit_text(image.title) + '</a> <a href="javascript:;" class="a_link choice_image"' + 'data-image_url="' + image.image_url + '">選択</a></li>');
+            image_block.find('.image_list').append('<li><a href="' + image.image_url + '" data-lity class="a_link">' + limit_text(image.title) + '</a> <a href="javascript:;" class="a_link choice_image" data-image_url="' + image.image_url + '" data-image_pk="' + image.id + '">選択</a>・<a href="' + image.image_url + '" data-lity class="a_link">確認</a></li>');
         });
 
         if (data.total !== 1 && data.total != data.paged && data.total !== 0) {
-            $('#image_list').append('<li><a href="javascript:;" class="a_link image_more_link"' + 'data-paged="' + (data.paged + 1) + '"' + 'data-lang="' + lang + '">さらに読み込む</a></li>')
+            image_block.find('.image_list').append('<li><a href="javascript:;" class="a_link image_more_link"' + 'data-paged="' + (data.paged + 1) + '"' + 'data-lang="' + lang + '">さらに読み込む</a></li>')
         }
 
         if (data.total === data.paged) {
-            $('#image_list').find('.image_more_link').remove();
+            image_block.find('.image_list').find('.image_more_link').remove();
         }
 
     }).fail(function(jqXHR) {
@@ -231,13 +285,26 @@ $(document).on('click', '.image_more_link', function() {
 });
 
 $(document).on('click', '.choice_image', function() {
+    var image_type = $(this).parents('.image_list').attr('data-image_type');
+    var image_pk = $(this).attr('data-image_pk');
     var image_url = $(this).attr('data-image_url');
     var thumbnail = image_url.replace('/image/upload/', '/image/upload/w_250,h_250,c_pad,b_white/');
-    $('#input_image_add').val(image_url);
-    $('#image_url').attr('src', thumbnail);
+
+    if (image_type === 'thumbnail') {
+        $('#image_thumbnails_2').html('<div><input type="hidden" name="thumbnail" value="' + image_url + '"><img src="' + thumbnail + '" alt=""><span class="thumbnail_delete">取消</span></div>');
+    } else if (image_type === 'image') {
+        $('#image_thumbnails_2').html('<div><input type="hidden" name="image" value="' + image_url + '"><img src="' + thumbnail + '" alt=""><span class="thumbnail_delete">取消</span></div>');
+    } else {
+        $('#image_thumbnails_1').append('<div><input type="hidden" name="images" value="' + image_pk + '"><img src="' + thumbnail + '" alt=""><span class="thumbnail_delete">取消</span></div>')
+    }
+});
+
+$(document).on('click', '.thumbnail_delete', function() {
+    $(this).parent().remove();
 });
 
 $('.image_delete_check').on('click', function(e) {
+
     var lang = $(this).attr('data-lang');
     var image_id = $(this).attr('data-image_id');
     var image_delete_href = $(this).attr('data-href');
@@ -249,11 +316,17 @@ $('.image_delete_check').on('click', function(e) {
 
     }).done(function(data) {
         if (data.delete_flag === true) {
+            if (!window.confirm('削除してよろしいですか？')) {
+                return false;
+            }
             window.location.href = image_delete_href;
 
         } else {
-            $('.header_status_text').text('投稿で使用中の画像です。');
-            $('.header_status').addClass('_show _error');
+            $('#use_images_list').html('');
+            $.each(data.use_posts, function(i, use_post) {
+                $('#use_images_list').append('<li><a target="_blank" href="/' + use_post.lang + '/admin/' + use_post.post_type + '/' + use_post.id + '" class="a_link">' +  limit_text(use_post.title) + '（' + use_post.post_type_label + '）</a></li>');
+            });
+            $('#use_images_link').click();
         }
 
     }).fail(function(jqXHR) {
@@ -520,6 +593,11 @@ if ($('#categories_list').length != 0) {
     get_categories();
 }
 
+$('.text_list_child').each(function() {
+    if ($(this).find('li').length !== 0) {
+        $(this).prev().show();
+    }
+});
 
 $(document).on('click', '.choice_list', function() {
     var add_id = $(this).attr('data-add_id');
@@ -535,7 +613,7 @@ $(document).on('click', '.choice_list', function() {
     if ($('#' + post_type + '_' + add_id).length != 0) {
         return false;
     }
-
+    choice_block.prev().show();
     choice_block.append('<li><input type="checkbox" name="' + post_type + '" checked value="' + add_id + '" id="' + post_type + '_' + add_id + '"><label for="' + post_type + '_' + add_id + '">' + post_title + '</label></li>');
 });
 
