@@ -217,22 +217,21 @@ $('.input_image_list_add_button').on('click', function() {
 
     }).done(function(data) {
         $.each(data.images, function(i, image) {
-            image_block.find('.image_list').append('<li><a href="' + image.image_url + '" data-lity class="a_link">' + limit_text(image.title) + '</a> <a href="javascript:;" class="a_link choice_image" data-image_url="' + image.image_url + '" data-image_pk="' + image.id + '">選択</a>・<a href="' + image.image_url + '" data-lity class="a_link">確認</a></li>');
+            image_block.find('.image_list').append('<li>' + limit_text(image.title) + ' <a href="javascript:;" class="a_link choice_image" data-image_url="' + image.image_url + '" data-image_pk="' + image.id + '">選択</a>・<a href="' + image.image_url + '" data-lity class="a_link">確認</a></li>');
         });
 
         if (data.total !== 1 && data.total != data.paged && data.total !== 0) {
-            image_block.find('.image_list').parent().append('<a href="javascript:;" class="a_link image_more_link"' + 'data-paged="' + (data.paged + 1) + '"' + 'data-lang="' + lang + '">さらに読み込む</a>')
+            image_block.find('.image_list').append('<li><a href="javascript:;" class="a_link image_more_link"' + 'data-paged="' + (data.paged + 1) + '"' + 'data-lang="' + lang + '">さらに読み込む</a></li>');
         }
 
         if (data.total === 0) {
-            image_block.find('.image_list').parent().append(
-            '<p id="empty_image">画像は登録されていません。</p>')
+            image_block.find('.image_list').parent().append('<p id="empty_image">画像は登録されていません。</p>')
         } else {
             $('#empty_image').remove();
         }
 
         if (data.total === data.paged) {
-            image_block.find('.image_list').parent().find('.more_link').remove();
+            image_block.find('.image_list').find('.image_more_link').parent().remove();
         }
 
     }).fail(function(jqXHR) {
@@ -259,16 +258,14 @@ $(document).on('click', '.image_more_link', function() {
         cache: false
 
     }).done(function(data) {
+        image_block.find('.image_more_link').parent().remove();
+
         $.each(data.images, function(i, image) {
-            image_block.find('.image_list').append('<li><a href="' + image.image_url + '" data-lity class="a_link">' + limit_text(image.title) + '</a> <a href="javascript:;" class="a_link choice_image" data-image_url="' + image.image_url + '" data-image_pk="' + image.id + '">選択</a>・<a href="' + image.image_url + '" data-lity class="a_link">確認</a></li>');
+            image_block.find('.image_list').append('<li>' + limit_text(image.title) + ' <a href="javascript:;" class="a_link choice_image" data-image_url="' + image.image_url + '" data-image_pk="' + image.id + '">選択</a>・<a href="' + image.image_url + '" data-lity class="a_link">確認</a></li>');
         });
 
         if (data.total !== 1 && data.total != data.paged && data.total !== 0) {
-            image_block.find('.image_list').append('<li><a href="javascript:;" class="a_link image_more_link"' + 'data-paged="' + (data.paged + 1) + '"' + 'data-lang="' + lang + '">さらに読み込む</a></li>')
-        }
-
-        if (data.total === data.paged) {
-            image_block.find('.image_list').find('.image_more_link').remove();
+            image_block.find('.image_list').append('<li><a href="javascript:;" class="a_link image_more_link"' + 'data-paged="' + (data.paged + 1) + '"' + 'data-lang="' + lang + '">さらに読み込む</a></li>');
         }
 
     }).fail(function(jqXHR) {
@@ -383,7 +380,7 @@ if ($('#titles_list').length != 0) {
 $(document).on('click', '.title_more_link', function() {
     var lang = $('#titles_list').attr('data-lang');
     var paged = $(this).attr('data-paged');
-    $(this).remove();
+    $(this).parent().remove();
     get_titles(paged, lang, null);
 });
 
@@ -416,7 +413,7 @@ function get_videos(paged, lang, video_id, value) {
         }
 
         if (data.total === data.paged) {
-            $('#videos_list').find('.video_more_link').remove();
+            $('#videos_list').find('.video_more_link').parent().remove();
         }
 
     }).fail(function(jqXHR) {
@@ -442,7 +439,7 @@ $(document).on('click', '.video_more_link', function() {
     var video_id = $('#videos_list').attr('data-video_id');
     var paged = $(this).attr('data-paged');
     var value = $('.videos_search').val();
-    $(this).remove();
+    $(this).parent().remove();
     get_videos(paged, lang, video_id, value);
 });
 
@@ -473,7 +470,7 @@ function get_introductions(paged, lang, value) {
         }
 
         if (data.total === data.paged) {
-            $('#introductions_list').find('.introduction_more_link').remove();
+            $('#introductions_list').find('.introduction_more_link').parent().remove();
         }
 
     }).fail(function(jqXHR) {
@@ -497,7 +494,7 @@ $(document).on('click', '.introduction_more_link', function() {
     var lang = $('#introductions_list').attr('data-lang');
     var paged = $(this).attr('data-paged');
     var value = $('.introductions_search').val();
-    $(this).remove();
+    $(this).parent().remove();
     get_introductions(paged, lang, value);
 });
 
@@ -527,7 +524,7 @@ function get_topics(paged, lang, value) {
         }
 
         if (data.total === data.paged) {
-            $('#topics_list').find('.topic_more_link').remove();
+            $('#topics_list').find('.topic_more_link').parent().remove();
         }
 
     }).fail(function(data) {
@@ -551,7 +548,7 @@ $(document).on('click', '.topic_more_link', function() {
     var lang = $('#topics_list').attr('data-lang');
     var paged = $(this).attr('data-paged');
     var value = $('.topics_search').val();
-    $(this).remove();
+    $(this).parent().remove();
     get_topics(paged, lang, value);
 });
 
