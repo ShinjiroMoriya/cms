@@ -4,13 +4,14 @@ from introduction.models import Introduction, IntroductionEn
 from video.models import Video, VideoEn
 
 
-introduction_fields = (
+video_fields = (
     'id',
     'title',
+    'date',
     'youtube_id'
 )
 
-introductions_fields = (
+introduction_fields = (
     'id',
     'name',
     'titles',
@@ -30,17 +31,23 @@ class PublishedSerializer(serializers.ListSerializer):
 
 
 class VideosRelationEnSerializer(serializers.ModelSerializer):
+    date = serializers.DateTimeField(
+        source='published_at', format="%Y/%m/%d")
+
     class Meta:
         model = VideoEn
         list_serializer_class = PublishedSerializer
-        fields = introduction_fields
+        fields = video_fields
 
 
 class VideosRelationSerializer(serializers.ModelSerializer):
+    date = serializers.DateTimeField(
+        source='published_at', format="%Y年%m月%d日")
+
     class Meta:
         model = Video
         list_serializer_class = PublishedSerializer
-        fields = introduction_fields
+        fields = video_fields
 
 
 class IntroductionSerializer(serializers.ModelSerializer):
@@ -49,7 +56,7 @@ class IntroductionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Introduction
-        fields = introductions_fields
+        fields = introduction_fields
 
     @staticmethod
     def get_titles(obj):
@@ -71,7 +78,7 @@ class IntroductionEnSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = IntroductionEn
-        fields = introductions_fields
+        fields = introduction_fields
 
     @staticmethod
     def get_titles(obj):

@@ -56,7 +56,7 @@ class TopicSerializer(serializers.ModelSerializer):
     images = serializers.SerializerMethodField()
 
     date = serializers.DateTimeField(
-        source='published_at', format="%Y/%m/%d")
+        source='published_at', format="%Y年%m月%d日")
 
     class Meta:
         model = Topic
