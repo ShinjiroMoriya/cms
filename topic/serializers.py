@@ -8,6 +8,7 @@ topics_fields = (
     'id',
     'title',
     'text',
+    'date',
     'thumbnail',
 )
 
@@ -17,6 +18,7 @@ events_fields = (
     'new',
     'title',
     'text',
+    'date',
     'thumbnail',
 )
 
@@ -34,18 +36,27 @@ topic_fields = (
 
 
 class EventsSerializer(serializers.ModelSerializer):
+    date = serializers.DateTimeField(
+        source='published_at', format="%Y年%m月%d日")
+
     class Meta:
         model = Topic
         fields = events_fields
 
 
 class EventsEnSerializer(serializers.ModelSerializer):
+    date = serializers.DateTimeField(
+        source='published_at', format="%Y/%m/%d")
+
     class Meta:
         model = TopicEn
         fields = events_fields
 
 
 class TopicsSerializer(serializers.ModelSerializer):
+    date = serializers.DateTimeField(
+        source='published_at', format="%Y年%m月%d日")
+
     class Meta:
         model = Topic
         fields = topics_fields
@@ -76,6 +87,9 @@ class TopicSerializer(serializers.ModelSerializer):
 
 
 class TopicsEnSerializer(serializers.ModelSerializer):
+    date = serializers.DateTimeField(
+        source='published_at', format="%Y/%m/%d")
+
     class Meta:
         model = TopicEn
         fields = topics_fields
