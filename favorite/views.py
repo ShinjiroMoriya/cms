@@ -14,7 +14,12 @@ from feed_app.services import get_error_message
 class APIFavoritePostView(View):
     @staticmethod
     def post(request, lang):
-        form = FavoriteForm(json.loads(request.body.decode("utf-8")))
+        try:
+            values = json.loads(request.body.decode("utf-8"))
+        except:
+            values = {}
+
+        form = FavoriteForm(values)
 
         if form.errors:
             messages.add_message(request, messages.INFO,
@@ -61,7 +66,12 @@ class APIFavoritePostView(View):
 class APIFavoriteDeleteView(View):
     @staticmethod
     def post(request, lang):
-        form = FavoriteForm(json.loads(request.body.decode("utf-8")))
+        try:
+            values = json.loads(request.body.decode("utf-8"))
+        except:
+            values = {}
+
+        form = FavoriteForm(values)
 
         if form.errors:
             messages.add_message(request, messages.INFO,
