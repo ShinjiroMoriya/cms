@@ -8,6 +8,7 @@ video_fields = (
     'id',
     'title',
     'text',
+    'date',
     'youtube_id'
 )
 
@@ -31,6 +32,9 @@ class PublishedSerializer(serializers.ListSerializer):
 
 
 class VideosRelationEnSerializer(serializers.ModelSerializer):
+    date = serializers.DateTimeField(
+        source='published_at', format="%Y/%m/%d")
+
     class Meta:
         model = VideoEn
         list_serializer_class = PublishedSerializer
@@ -38,6 +42,9 @@ class VideosRelationEnSerializer(serializers.ModelSerializer):
 
 
 class VideosRelationSerializer(serializers.ModelSerializer):
+    date = serializers.DateTimeField(
+        source='published_at', format="%Y年%m月%d日")
+
     class Meta:
         model = Video
         list_serializer_class = PublishedSerializer
