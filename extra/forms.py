@@ -93,6 +93,8 @@ class TopicForm(forms.Form):
                                    error_messages=ERROR_MESSAGES)
     published_at = forms.DateTimeField(required=True,
                                        error_messages=ERROR_MESSAGES)
+    event_date = forms.DateTimeField(required=False,
+                                     error_messages=ERROR_MESSAGES)
     thumbnail = forms.CharField(required=True,
                                 error_messages=ERROR_MESSAGES)
     images = forms.MultipleChoiceField(

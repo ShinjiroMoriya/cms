@@ -1,5 +1,4 @@
 from feed_app.caches_manager import Cache
-from datetime import datetime
 from django.views.generic import View
 from django.http import JsonResponse
 from topic.models import Topic, TopicEn

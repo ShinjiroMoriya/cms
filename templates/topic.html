@@ -2,6 +2,7 @@
 {%- from "parts/relation_parts.html" import videos with context %}
 {% block style %}
 <link rel="stylesheet" href="/assets/lib/lity/lity.min.css">
+<link rel="stylesheet" href="/assets/lib/flatpickr/flatpickr.min.css">
 {% endblock %}
 {% block body %}
 <div class="header_status"><p class="header_status_text"></p></div>
@@ -104,6 +105,12 @@
                         </select>
                     </td>
                 </tr>
+                <tr class="event_date_raw{% if topic.post_type != 'event' %} _hide{% endif %}">
+                    <th>イベント開催日</th>
+                    <td>
+                        <input type="text" id="calendar" name="event_date" class="input_text" placeholder="入力してください" value="{% if form_data['event_date'] %}{{ form_data['event_date'] }}{% else %}{% if topic.event_date != None %}{{ topic.event_date }}{% endif %}{% endif %}">
+                    </td>
+                </tr>
                 <tr>
                     <th>タイトル</th>
                     <td>
@@ -190,4 +197,6 @@
 {% endblock %}
 {% block javascript %}
 <script src="/assets/lib/lity/lity.min.js"></script>
+<script src="/assets/lib/flatpickr/flatpickr.min.js"></script>
+<script>flatpickr('#calendar');</script>
 {% endblock %}

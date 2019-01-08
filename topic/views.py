@@ -10,7 +10,9 @@ from video.models import Video, VideoEn
 from topic.models import Topic, TopicEn
 from topic.serializers import (
     TopicSerializer, TopicEnSerializer,
-    TopicsSerializer, TopicsEnSerializer
+    TopicsSerializer, TopicsEnSerializer,
+    EventSerializer, EventEnSerializer,
+    EventsSerializer, EventsEnSerializer,
 )
 from feed_app.services import (
     get_error_message, date_format, Pagination
@@ -93,13 +95,13 @@ class APIEventView(View):
         if lang == 'ja':
             cached_event = Cache.get('api_event_' + str(event_id))
             if cached_event is None:
-                topic = Topic.get_event_published_by_id(event_id)
-                if topic is None:
+                event = Topic.get_event_published_by_id(event_id)
+                if event is None:
                     return JsonResponse({
                         'message': 'Not Found'
                     }, status=404)
 
-                res = TopicSerializer(topic).data
+                res = EventSerializer(event).data
                 Cache.set('api_event_' + str(event_id), res)
             else:
                 res = cached_event
@@ -107,12 +109,12 @@ class APIEventView(View):
         elif lang == 'en':
             cached_event_en = Cache.get('api_event_en_' + str(event_id))
             if cached_event_en is None:
-                topic = TopicEn.get_topic_published_by_id(event_id)
-                if topic is None:
+                event = TopicEn.get_topic_published_by_id(event_id)
+                if event is None:
                     return JsonResponse({
                         'message': 'Not Found'
                     }, status=404)
-                res = TopicEnSerializer(topic).data
+                res = EventEnSerializer(event).data
                 Cache.set('api_event_en_' + event_id, res)
             else:
                 res = cached_event_en
@@ -131,7 +133,7 @@ class APIEventsView(View):
         if lang == 'ja':
             cached_events = Cache.get('api_events')
             if cached_events is None:
-                res = TopicsSerializer(
+                res = EventsSerializer(
                     Topic.get_event_published_all(), many=True).data
                 Cache.set('api_events', res)
             else:
@@ -140,7 +142,7 @@ class APIEventsView(View):
         elif lang == 'en':
             cached_events_en = Cache.get('api_events_en')
             if cached_events_en is None:
-                res = TopicsEnSerializer(
+                res = EventsEnSerializer(
                     TopicEn.get_topic_published_all(), many=True).data
                 Cache.set('api_events_en', res)
             else:
@@ -256,6 +258,8 @@ class AdminTopicView(View):
                     'thumbnail': form.cleaned_data.get('thumbnail'),
                     'url': form.cleaned_data.get('url'),
                     'button_label': form.cleaned_data.get('button_label'),
+                    'event_date': form.cleaned_data.get('event_date'),
+                    'published_at': form.cleaned_data.get('published_at'),
                 })
                 add_videos = form.cleaned_data.get('videos')
                 if add_videos:
@@ -345,6 +349,7 @@ class AdminTopicCreateView(View):
                     'text': form.cleaned_data.get('text'),
                     'thumbnail': form.cleaned_data.get('thumbnail'),
                     'url': form.cleaned_data.get('url'),
+                    'event_date': form.cleaned_data.get('event_date'),
                     'button_label': form.cleaned_data.get('button_label'),
                 })
                 add_videos = form.cleaned_data.get('videos')

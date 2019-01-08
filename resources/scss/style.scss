@@ -149,7 +149,7 @@
         font-weight: normal;
 
         padding: 15px;
-        font-size: 14px;
+        font-size: 16px;
 
         border-bottom: 1px solid #ddd;
     }
@@ -245,13 +245,13 @@
 }
 .input_select
 {
-    font-size: 14px;
+    font-size: 16px;
     line-height: 14px;
 
     box-sizing: border-box;
     width: 100%;
-    height: 30px;
-    padding: 10px;
+    height: 40px;
+    padding: 5px;
 
     cursor: pointer;
 
@@ -696,4 +696,10 @@
 }
 .image_more_link {
     font-size: 16px;
+}
+
+.event_date_raw {
+    &._hide {
+        display: none;
+    }
 }

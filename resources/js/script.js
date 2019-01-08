@@ -622,3 +622,12 @@ $('.input_search').keydown(function(e) {
         return true;
     }
 });
+
+$('select[name="post_type"]').on('change', function() {
+    if ($(this).val() === 'event') {
+        $('.event_date_raw').removeClass('_hide');
+    } else {
+        $('.event_date_raw').addClass('_hide');
+        $('.event_date_raw').find('input').val('');
+    }
+});

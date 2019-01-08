@@ -1,6 +1,5 @@
 from django.db import models
 from extra.models import Image
-# from video.models import Video
 from datetime import datetime
 
 
@@ -25,6 +24,9 @@ class TopicBase(models.Model):
     button_label = models.CharField(max_length=255, blank=True, null=True)
     
     images = models.ManyToManyField(to=Image, blank=True)
+
+    event_date = models.DateTimeField(default=datetime.now,
+                                      blank=True, null=True)
 
     updated_at = models.DateTimeField(default=datetime.now)
     created_at = models.DateTimeField(default=datetime.now)
