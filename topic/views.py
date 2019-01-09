@@ -109,13 +109,13 @@ class APIEventView(View):
         elif lang == 'en':
             cached_event_en = Cache.get('api_event_en_' + str(event_id))
             if cached_event_en is None:
-                event = TopicEn.get_topic_published_by_id(event_id)
+                event = TopicEn.get_event_published_by_id(event_id)
                 if event is None:
                     return JsonResponse({
                         'message': 'Not Found'
                     }, status=404)
                 res = EventEnSerializer(event).data
-                Cache.set('api_event_en_' + event_id, res)
+                Cache.set('api_event_en_' + str(event_id), res)
             else:
                 res = cached_event_en
 
@@ -143,7 +143,7 @@ class APIEventsView(View):
             cached_events_en = Cache.get('api_events_en')
             if cached_events_en is None:
                 res = EventsEnSerializer(
-                    TopicEn.get_topic_published_all(), many=True).data
+                    TopicEn.get_event_published_all(), many=True).data
                 Cache.set('api_events_en', res)
             else:
                 res = cached_events_en
