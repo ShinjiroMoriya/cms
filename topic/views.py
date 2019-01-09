@@ -48,7 +48,7 @@ class APITopicView(View):
                         'message': 'Not Found'
                     }, status=404)
                 res = TopicEnSerializer(topic).data
-                Cache.set('api_topic_en_' + topic_id, res)
+                Cache.set('api_topic_en_' + str(topic_id), res)
             else:
                 res = cached_topic_en
 
