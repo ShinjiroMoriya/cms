@@ -6,7 +6,7 @@ from datetime import datetime
 class TopicBase(models.Model):
     class Meta:
         abstract = True
-        ordering = ['-event_date', '-published_at']
+        ordering = ['event_date', '-published_at']
 
     post_type = models.CharField(max_length=255, blank=True, null=True,
                                  default='topic',
