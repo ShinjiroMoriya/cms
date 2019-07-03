@@ -51,7 +51,7 @@ class TopicBase(models.Model):
         return cls.objects.filter(
             post_type='event',
             status=1,
-            published_at__lt=datetime.now())
+            published_at__lt=datetime.now()).order_by('event_date')
 
     @classmethod
     def get_topic_search_all(cls, value):
