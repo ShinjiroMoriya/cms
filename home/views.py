@@ -15,7 +15,7 @@ class APIHomeView(View):
             cached_home_events = Cache.get('api_home_events')
             if cached_home_events is None:
                 events_res = EventsSerializer(
-                    Topic.get_event_published_all(), many=True).data
+                    Topic.get_event_home_published_all(), many=True).data
                 Cache.set('api_home_events', events_res)
             else:
                 events_res = cached_home_events
@@ -32,7 +32,7 @@ class APIHomeView(View):
             cached_home_categories_en = Cache.get('api_home_categories_en')
             if cached_home_categories_en is None:
                 events_res = EventsEnSerializer(
-                    TopicEn.get_event_published_all(), many=True).data
+                    TopicEn.get_event_home_published_all(), many=True).data
                 Cache.set('api_categories_en', events_res)
             else:
                 events_res = cached_home_categories_en
