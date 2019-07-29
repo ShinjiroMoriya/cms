@@ -37,7 +37,7 @@ class TopicBase(models.Model):
 
     @classmethod
     def get_all(cls):
-        return cls.objects.all()
+        return cls.objects.all().order_by('-published_at')
 
     @classmethod
     def get_topic_published_all(cls):
@@ -79,7 +79,7 @@ class TopicBase(models.Model):
 
     @classmethod
     def get_by_ids(cls, topic_ids):
-        return cls.objects.filter(id__in=topic_ids)
+        return cls.objects.filter(id__in=topic_ids).order_by('-published_at')
 
     @classmethod
     def get_topic_published_by_id(cls, topic_id):
