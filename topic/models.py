@@ -44,7 +44,15 @@ class TopicBase(models.Model):
         return cls.objects.filter(
             post_type='topic',
             status=1,
-            published_at__lt=datetime.now())
+            published_at__lt=datetime.now()).order_by('-published_at')
+
+    @classmethod
+    def get_topic_home_published_all(cls):
+        return cls.objects.filter(
+            post_type='topic',
+            status=1,
+            new=True,
+            published_at__lt=datetime.now()).order_by('-published_at')
 
     @classmethod
     def get_event_published_all(cls):
@@ -57,7 +65,7 @@ class TopicBase(models.Model):
     def get_topic_search_all(cls, value):
         return cls.objects.filter(
             post_type='topic',
-            title__contains=value)
+            title__contains=value).order_by('-published_at')
 
     @classmethod
     def get_event_search_all(cls, value):

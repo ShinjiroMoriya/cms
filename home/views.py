@@ -23,7 +23,7 @@ class APIHomeView(View):
             cached_home_topics = Cache.get('api_home_topics')
             if cached_home_topics is None:
                 topics_res = TopicsSerializer(
-                    Topic.get_topic_published_all(), many=True).data
+                    Topic.get_topic_home_published_all(), many=True).data
                 Cache.set('api_home_topics', topics_res)
             else:
                 topics_res = cached_home_topics
@@ -40,7 +40,7 @@ class APIHomeView(View):
             cached_home_topics_en = Cache.get('api_home_topics_en')
             if cached_home_topics_en is None:
                 topics_res = TopicsEnSerializer(
-                    TopicEn.get_topic_published_all(), many=True).data
+                    TopicEn.get_topic_home_published_all(), many=True).data
                 Cache.set('api_home_topics_en', topics_res)
             else:
                 topics_res = cached_home_topics_en
