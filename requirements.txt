@@ -10,7 +10,7 @@ django-dotenv==1.4.2
 django-ipware==2.1.0
 django-redis==4.9.0
 django-sslserver==0.20
-djangorestframework==3.8.2
+djangorestframework==3.11.2
 funcy==1.10.3
 gunicorn==19.9.0
 idna==2.7
