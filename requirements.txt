@@ -14,7 +14,7 @@ djangorestframework==3.8.2
 funcy==1.10.3
 gunicorn==19.9.0
 idna==2.7
-Jinja2==2.10
+Jinja2==2.11.3
 MarkupSafe==1.0
 mock==2.0.0
 msgpack==0.5.6
